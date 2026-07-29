@@ -1,0 +1,16 @@
+name: checks
+
+# Runs the same aggregate the maintainer runs. Nothing CI-only: if this passes
+# here and fails locally, or the reverse, the target is the thing to fix.
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  ws-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run every check
+        run: make ws-test

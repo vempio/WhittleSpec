@@ -1,0 +1,14 @@
+# ws-check-refs ignore-list
+#
+# Command-shaped tokens (`/name`) that are deliberate DOCUMENTATION EXAMPLES, not
+# real skill invocations. The reference checker skips these so it can otherwise
+# fail hard on genuinely broken pointers.
+#
+# One token per line. Blank lines and #-comments are ignored; an inline #-comment
+# after a token is fine too.
+#
+# Keep this list SHORT. Only fabricated illustrative names belong here. Never add
+# a real command that happens to be broken -- fix the reference instead.
+
+/foo        # generic placeholder used when illustrating a made-up command/endpoint
+/old.name   # stand-in "renamed thing" in ws.sweep's search-pattern examples

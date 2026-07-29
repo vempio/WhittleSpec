@@ -1,0 +1,2 @@
+# Fixture denylist for ws-check-examples.test.sh
+forbidden-fixture-term

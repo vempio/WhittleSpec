@@ -1,0 +1,10 @@
+# Adopter personal-overlay slot (picked up by the install Makefile, never tracked
+# here). No trailing slash so a symlinked slot is ignored too.
+personal
+
+# Default-ignore for the spec tree (R34). Nothing under specs/ is tracked here
+# until positively cleared; the entry precedes the content so the first status
+# after specs arrive cannot invite an `add -A`. No trailing slash, same reason as
+# above. The corpus lives tracked in WhittleSpec.personal; publication is a
+# deliberate act, never a default.
+specs

@@ -1,0 +1,175 @@
+# File: Makefile.common
+# Purpose: Shared build targets for WhittleSpec integration
+
+# Detect the WhittleSpec clone location (works whether included or run directly)
+WHITTLESPEC_DIR ?= $(dir $(lastword $(MAKEFILE_LIST)))..
+
+# Where skills get installed. WS_SKILLS_DIR is the interface for the global
+# target and WS_PROJECT_SKILLS_DIR for the per-project one: set either and the
+# install lands there under any agent harness (INV-1 -- "where does your agent
+# keep its skills" is a question every harness answers).
+#
+# <!-- WS:DEFAULT claude-code-skills-dir -->
+# Absent an explicit setting, default to Claude Code's convention.
+CLAUDE_CONFIG_DIR ?= $(HOME)/.claude
+WS_SKILLS_DIR ?= $(CLAUDE_CONFIG_DIR)/skills
+WS_PROJECT_SKILLS_DIR ?= .claude/skills
+# <!-- /WS -->
+#
+# The adopter's own skills, picked up alongside this repo's by both install
+# targets. Settable so an overlay can live wherever the adopter keeps it -- and
+# so the installer test can point at a fixture instead of skipping when no real
+# overlay is present.
+WS_PERSONAL_DIR ?= $(WHITTLESPEC_DIR)/personal
+
+# Every recipe below reads these four through the environment and never splices
+# their value into the recipe text. Make expands a variable reference before the
+# shell ever parses the line, so a path holding a backtick, a dollar-parenthesis
+# or a quote would arrive as shell syntax and run -- from an environment the
+# adopter set, or from nothing worse than an unusual directory name. Exported
+# here, dereferenced as a quoted shell variable there. What a recipe runs
+# inherits them, a nested make included, so the installer's own test harness
+# clears them -- a case that names no directory has to see the default.
+export WHITTLESPEC_DIR
+export WS_SKILLS_DIR
+export WS_PROJECT_SKILLS_DIR
+export WS_PERSONAL_DIR
+
+# Aggregate verification. Named ws-test, not test: this file is included by
+# adopter Makefiles and `test` is a name they own (INV-2).
+#
+# Layer-check scope: every shipped .md except build/mechanism-inventory.md,
+# which lists mechanism names by construction and would report itself, plus this
+# file, which states adopter-facing defaults and carries the same obligation.
+# The remaining build files cannot be included -- they hold marker syntax as
+# test data and as awk patterns, which the validator reads as real markers.
+.PHONY: ws-help ws-skills ws-install-global ws-install-skills ws-verify-structure ws-test
+
+ws-test:
+	@fail=0; \
+	for t in "$$WHITTLESPEC_DIR"/build/*.test.sh; do \
+		printf '  %-26s ' "$$(basename "$$t")"; \
+		if sh "$$t" >/dev/null 2>&1; then echo "ok"; else echo "FAIL"; fail=1; fi; \
+	done; \
+	printf '  %-26s ' "ws-check-refs"; \
+	if (cd "$$WHITTLESPEC_DIR" && sh build/ws-check-refs.sh) >/dev/null 2>&1; \
+		then echo "ok"; else echo "FAIL"; fail=1; fi; \
+	printf '  %-26s ' "ws-check-examples"; \
+	if (cd "$$WHITTLESPEC_DIR" && sh build/ws-check-examples.sh) >/dev/null 2>&1; \
+		then echo "ok"; else echo "FAIL"; fail=1; fi; \
+	out="$$(sh "$$WHITTLESPEC_DIR/build/ws-layer-check.sh" \
+		"$$WHITTLESPEC_DIR"/skills/*/*.md "$$WHITTLESPEC_DIR"/context/*.md \
+		"$$WHITTLESPEC_DIR"/docs/*.md "$$WHITTLESPEC_DIR/README.md" \
+		"$$WHITTLESPEC_DIR/INSTALL.md" "$$WHITTLESPEC_DIR/build/Makefile.common" \
+		"$$WHITTLESPEC_DIR/CONTRIBUTING.md" "$$WHITTLESPEC_DIR/WHITTLESPEC.md" 2>&1 >/dev/null)"; \
+	integ="$$(printf '%s\n' "$$out" | grep -v '^CORE-mechanism' | grep -c .)"; \
+	core="$$(printf '%s\n' "$$out" | grep -c '^CORE-mechanism')"; \
+	printf '  %-26s ' "layer integrity"; \
+	if [ "$$integ" -eq 0 ]; then echo "ok"; else echo "FAIL ($$integ)"; fail=1; fi; \
+	printf '  %-26s ' "layer mechanisms"; \
+	if [ "$$core" -eq 0 ]; then echo "ok"; else echo "FAIL ($$core)"; fail=1; fi; \
+	echo ""; \
+	if [ $$fail -eq 0 ]; then echo "ws-test PASSED"; else echo "ws-test FAILED"; exit 1; fi
+
+ws-help:
+	@echo "WhittleSpec Build System"
+	@echo "========================"
+	@echo ""
+	@echo "Skill Management:"
+	@echo "  make ws-skills             List available skills"
+	@echo "  make ws-install-global     Symlink skills globally (WS_SKILLS_DIR)"
+	@echo "  make ws-install-skills     Symlink skills per-project (WS_PROJECT_SKILLS_DIR)"
+	@echo "  make ws-verify-structure   Check repository setup is correct"
+	@echo ""
+	@echo "Verification:"
+	@echo "  make ws-test               Run every check (suites, references, layer markers)"
+	@echo ""
+	@echo "Usage:"
+	@echo "  Global install (recommended), run from the clone:"
+	@echo "    make ws-install-global"
+	@echo ""
+	@echo "  Per-project install, run from the project:"
+	@echo "    make -f /path/to/WhittleSpec/build/Makefile.common ws-install-skills"
+
+# List available skills
+ws-skills:
+	@for group in "Spine:ws.[0-9]*" "Inner loops:ws.tdd.* ws.bdd.*" "Utilities:"; do \
+		label="$${group%%:*}"; pats="$${group#*:}"; \
+		echo "$$label:"; \
+		for d in "$$WHITTLESPEC_DIR"/skills/*/; do \
+			name=$$(basename "$$d"); \
+			[ -f "$$d/SKILL.md" ] || continue; \
+			grep -qE '^user-invocable:[[:space:]]*false' "$$d/SKILL.md" && continue; \
+			match=0; \
+			case "$$name" in ws.[0-9]*|ws.tdd.*|ws.bdd.*) classified=1;; *) classified=0;; esac; \
+			if [ -z "$$pats" ]; then \
+				[ $$classified -eq 0 ] && match=1; \
+			else \
+				for p in $$pats; do case "$$name" in $$p) match=1;; esac; done; \
+			fi; \
+			[ $$match -eq 1 ] && echo "  $$name"; \
+		done; \
+		echo ""; \
+	done
+
+# Install skills into WS_SKILLS_DIR, plus the adopter's overlay if one is there.
+ws-install-global:
+	@echo "Installing WhittleSpec skills globally to $$WS_SKILLS_DIR/..."
+	@sh "$$WHITTLESPEC_DIR/build/ws-install.sh" "$$WS_SKILLS_DIR" "$$WHITTLESPEC_DIR" "$$WS_PERSONAL_DIR"
+	@echo ""
+	@echo "Done. WhittleSpec skills now available in all projects."
+	@echo "Optionally add your own skills in a gitignored personal/ slot beside this repo."
+
+# The same install, scoped to one project's skills directory (declared with the
+# global one above, so both interface variables sit together).
+ws-install-skills:
+	@echo "Symlinking WhittleSpec skills to $$WS_PROJECT_SKILLS_DIR/..."
+	@sh "$$WHITTLESPEC_DIR/build/ws-install.sh" "$$WS_PROJECT_SKILLS_DIR" "$$WHITTLESPEC_DIR" "$$WS_PERSONAL_DIR"
+	@echo "Done. Use /ws.0-start to start."
+
+# Verify repository structure
+ws-verify-structure:
+	@echo "Verifying WhittleSpec integration..."
+	@failed=0; \
+	\
+	echo ""; \
+	echo "1. Checking for the WhittleSpec clone..."; \
+	if [ -f "$$WHITTLESPEC_DIR/skills/ws._meta/SKILL.md" ]; then \
+		echo "   OK WhittleSpec clone found"; \
+	else \
+		echo "   FAIL skills/ws._meta/SKILL.md not found"; \
+		failed=1; \
+	fi; \
+	\
+	echo ""; \
+	echo "2. Checking skill symlinks in $$WS_SKILLS_DIR..."; \
+	linked=0; broken=0; \
+	for d in "$$WHITTLESPEC_DIR"/skills/ws.*/; do \
+		[ -f "$$d/SKILL.md" ] || continue; \
+		name=$$(basename "$$d"); \
+		target="$$WS_SKILLS_DIR/$$name"; \
+		want=$$(cd "$$d" && pwd -P); \
+		if [ ! -L "$$target" ] && [ ! -e "$$target" ]; then \
+			echo "   FAIL not installed: $$name"; broken=$$((broken + 1)); \
+		elif [ ! -e "$$target" ]; then \
+			echo "   FAIL broken symlink: $$name"; broken=$$((broken + 1)); \
+		elif [ "$$(cd "$$target" && pwd -P)" = "$$want" ]; then \
+			linked=$$((linked + 1)); \
+		else \
+			echo "   FAIL $$name does not resolve into this clone"; broken=$$((broken + 1)); \
+		fi; \
+	done; \
+	if [ $$broken -eq 0 ]; then \
+		echo "   OK all $$linked skills resolve into this clone"; \
+	else \
+		echo "   FAIL $$broken of $$((linked + broken)) skills missing or foreign - run 'make ws-install-global'"; \
+		failed=1; \
+	fi; \
+	\
+	echo ""; \
+	if [ $$failed -eq 1 ]; then \
+		echo "FAIL Verification FAILED"; \
+		exit 1; \
+	else \
+		echo "OK Verification PASSED"; \
+	fi
