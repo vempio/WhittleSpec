@@ -36,11 +36,13 @@ run() {
 run "$CORPUS"
 name="flags_exactly_the_planted_defects"
 count=$(printf '%s\n' "$OUT" | grep -c ' -> ' || true)
-if [ "$RC" -eq 1 ] && [ "$count" -eq 4 ] \
+if [ "$RC" -eq 1 ] && [ "$count" -eq 6 ] \
 	&& printf '%s\n' "$OUT" | grep -q 'bad.md:5 -> command: /sdd.ghost' \
 	&& printf '%s\n' "$OUT" | grep -q 'bad.md:6 -> link: missing.md' \
 	&& printf '%s\n' "$OUT" | grep -q 'bad.md:7 -> section: Nonexistent Heading' \
-	&& printf '%s\n' "$OUT" | grep -q 'bad.md:8 -> section: Verification Binding'; then
+	&& printf '%s\n' "$OUT" | grep -q 'bad.md:8 -> section: Verification Binding' \
+	&& printf '%s\n' "$OUT" | grep -q 'bad.md:9 -> section: .*navigates, point at the heading' \
+	&& printf '%s\n' "$OUT" | grep -q 'bad.md:10 -> section: .*navigates, point at the heading'; then
 	ok "$name"
 else
 	bad "$name" "rc=$RC count=$count out=[$OUT]"
@@ -101,6 +103,22 @@ if [ "$RC_OFF" -eq 1 ] && [ "$RC_ON" -eq 1 ] \
 	ok "$name"
 else
 	bad "$name" "off=[$OUT_OFF] on=[$OUT_ON]"
+fi
+
+# --- test: removing a subsection heading is caught, parent intact ---
+# The gap this closes: "§ Parent → Child" validated Parent only, so renaming
+# Child left every reference to it stale behind a green build.
+name="subsection_removal_is_caught"
+d=$(mktemp -d); cp -r "$FIX" "$d/fix"
+grep -v '^### Discovery-capture binding$' "$FIX/skills/sdd.real/SKILL.md" > "$d/fix/skills/sdd.real/SKILL.md"
+set +e
+OUT=$("$CHECK" "$d/fix/corpus/good.md" --skills-dir "$d/fix/skills" --ignore /dev/null 2>/dev/null); RC=$?
+set -e
+rm -rf "$d"
+if [ "$RC" -eq 1 ] && printf '%s\n' "$OUT" | grep -q 'section: Discovery-capture binding'; then
+	ok "$name"
+else
+	bad "$name" "rc=$RC out=[$OUT]"
 fi
 
 printf '\n%s/%s passed.\n' "$pass" "$((pass + fail))"

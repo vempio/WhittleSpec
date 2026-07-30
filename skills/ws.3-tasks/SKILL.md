@@ -109,7 +109,7 @@ The ledger is the severed-capability test made visible. Two tells, scannable at 
 
 #### Involvement Sign-Off (presented at the single post-compliance gate)
 
-Involvement is **not** presented here. There is exactly one sign-off gate, and it runs **after** vertical-slice compliance passes (see § Validate Sequencing → STOP Gate: Vertical Slice Compliance, then Present). At that gate the task file is presented — Slice Ledger first, then the Involvement Summary, then enough task detail to judge the levels — in a single STOP. The involvement summary only makes sense shown with the task list, so it is never presented before compliance is clean.
+Involvement is **not** presented here. There is exactly one sign-off gate, and it runs **after** vertical-slice compliance passes (see § STOP Gate: Vertical Slice Compliance). At that gate the task file is presented — Slice Ledger first, then the Involvement Summary, then enough task detail to judge the levels — in a single STOP. The involvement summary only makes sense shown with the task list, so it is never presented before compliance is clean.
 
 ### 5. Validate Sequencing
 
@@ -132,13 +132,21 @@ Cross-check `plan.md` / `umbrella-plan.md` / `decisions.md` too: any prescriptiv
 
 **Sequencing questions**: "First end-to-end feedback?" / "Dependencies explicit?" / "Should any split?"
 
-**Skip test (mandatory, ALL tasks)**: Mentally skip each task. Nothing demonstrable changes outside test suite -> infrastructure without payoff -> merge into task with demo.
+#### Skip test
 
-**Underwhelm test (mandatory, ALL tasks)**: Imagine showing demo to senior stakeholder. "You called me in for *this*?" -> too thin or demo hides payoff. Merge thin tasks or rewrite demo.
+**Mandatory, ALL tasks.** Mentally skip each task. Nothing demonstrable changes outside test suite -> infrastructure without payoff -> merge into task with demo.
 
-**Severed-capability / exposure test (mandatory, ALL tasks)**: Name the capability each task serves in one user-job phrase — a thing the user *does*. Then ask: *is this task's entire payload making a capability visible — advertising, cataloguing, documenting, adding to an index / menu / usage-hint — where the capability functions, or will function, without it?* If yes, merge it into the task delivering that behaviour. Equally reject per-surface slicing when those surfaces compose one capability. Both rules: `ws._meta/shaping.md` § Slicing > Per-surface slicing + Exposure is not a slice. This test fires where the per-task Reachability pass cannot: an exposure-only task is independently demoable and "wires into prod," so it passes Reachability while still being horizontal.
+#### Underwhelm test
 
-**Reachability pass (mandatory, every task that produces user-facing output)**: User-facing = page, screen, URL, command, generated artefact a person consumes — not internal modules, refactors, or schema migrations. For each such task, produce TWO outputs *before* the compliance gate. They are complementary: the boss demo forces narrative concreteness; the regret scenarios force adversarial generation. A leaf-only slice that survives one tends to die in the other.
+**Mandatory, ALL tasks.** Imagine showing demo to senior stakeholder. "You called me in for *this*?" -> too thin or demo hides payoff. Merge thin tasks or rewrite demo.
+
+#### Severed-capability / exposure test
+
+**Mandatory, ALL tasks.** Name the capability each task serves in one user-job phrase — a thing the user *does*. Then ask: *is this task's entire payload making a capability visible — advertising, cataloguing, documenting, adding to an index / menu / usage-hint — where the capability functions, or will function, without it?* If yes, merge it into the task delivering that behaviour. Equally reject per-surface slicing when those surfaces compose one capability. Both rules: `ws._meta/shaping.md` § Per-surface slicing and `ws._meta/shaping.md` § Exposure is not a slice. This test fires where the per-task Reachability pass cannot: an exposure-only task is independently demoable and "wires into prod," so it passes Reachability while still being horizontal.
+
+#### Reachability pass
+
+**Mandatory, every task that produces user-facing output.** User-facing = page, screen, URL, command, generated artefact a person consumes — not internal modules, refactors, or schema migrations. For each such task, produce TWO outputs *before* the compliance gate. They are complementary: the boss demo forces narrative concreteness; the regret scenarios force adversarial generation. A leaf-only slice that survives one tends to die in the other.
 
 **Output A — Boss demo**: a scenario in which you call your senior stakeholder into a meeting, hand them the running product, and ask them to find and exercise the new capability *themselves*, *after only this task has shipped*. Specify:
 
@@ -293,7 +301,7 @@ When feature has operator/user interface, **prefer outside-in**:
 
 ### BDD decision
 
-Every drafted task records exactly one line — `BDD decision: use | do not use — <reason>` — never silently omitted. One applicability test decides it: *does this task introduce a new user-facing behavioural contract?* Not "no observable behaviour changes" — a task with no observable result at all is a slicing smell (see § Validate Sequencing → Skip test), not an exemption.
+Every drafted task records exactly one line — `BDD decision: use | do not use — <reason>` — never silently omitted. One applicability test decides it: *does this task introduce a new user-facing behavioural contract?* Not "no observable behaviour changes" — a task with no observable result at all is a slicing smell (see § Skip test), not an exemption.
 
 - **Introduces a new user-facing behavioural contract, with an automatable boundary** → `use` by default; it drives the outer loop unless the user explicitly overrides.
 - **Introduces no new user-facing behavioural contract** (prose, config, a doc, a design artefact, or work with no executable boundary at all) → `do not use — not applicable: <reason>`.
@@ -345,7 +353,7 @@ BDD `@docs` scenario verifies doc exists. Written incrementally during `ws.tdd.g
 
 ### What NOT to Do
 
-- Tasks for "might need" features / sequence for "easy" not feedback / batch verifiable-independently tasks / split feature from operational surface / defer docs to "write docs" task / **defer a user-facing artefact's discoverability to a later task — see § Validate Sequencing → Reachability pass** / **make exposure its own task, or slice one capability per surface — see § Validate Sequencing → Severed-capability test**
+- Tasks for "might need" features / sequence for "easy" not feedback / batch verifiable-independently tasks / split feature from operational surface / defer docs to "write docs" task / **defer a user-facing artefact's discoverability to a later task — see § Reachability pass** / **make exposure its own task, or slice one capability per surface — see § Severed-capability / exposure test**
 
 ## Tracker Sync
 
@@ -369,7 +377,7 @@ From `ws._meta`, not optional:
 
 1. **Compaction pass** — re-read and cut. Target ≥ 20% on first pass (`ws._meta/shaping.md` §Condensation is a deliverable).
 2. **Attention-budget check** — ask: *"Is this still shorter than your attention span for one sitting?"* (`ws._meta/shaping.md` §Attention Budget).
-3. **Size ceiling** — check against `ws._meta/shaping.md` §Artefact size ceilings for `tasks.md`. Past hard cap → *merge over-granular tasks* or *split scope*, not "umbrella by reflex".
+3. **Size ceiling** — check against `ws._meta/shaping.md` §Artefact size ceilings, for `tasks.md`. Past the hard cap, *merge over-granular tasks* or *split scope* -- not "umbrella by reflex".
 
 ### Readiness checklist
 

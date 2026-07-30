@@ -68,7 +68,7 @@ Tracker epic/issue         Created when work is committed, not before
 
 **Key rule**: The tracker holds *committed* work. Ideas, seeds, specs, and tracked issues are exclusive source-of-truth surfaces. Don't mirror the same item across `_ideas.md` and a seed/spec/tracked issue; move it when it graduates. Don't create tracker issues for seeds -- that bloats the backlog with undecided items.
 
-The surfaces above are the defaults. A project may bind extra or replacement destinations for discoveries this pipeline doesn't cover -- resolve `ws-binding get discovery-capture` and route by the recorded rule rather than forcing every discovery into the ideas/seed/tracker path. See `ws._meta/lifecycle.md` § Capture Surfaces → Discovery-capture binding.
+The surfaces above are the defaults. A project may bind extra or replacement destinations for discoveries this pipeline doesn't cover -- resolve `ws-binding get discovery-capture` and route by the recorded rule rather than forcing every discovery into the ideas/seed/tracker path. See `ws._meta/lifecycle.md` § Discovery-capture binding.
 
 **Creating a seed** (via `/ws.refine` path d):
 

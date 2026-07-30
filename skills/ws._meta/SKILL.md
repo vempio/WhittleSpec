@@ -157,7 +157,7 @@ Watch for: **contradictions** ("Spec says X, building Y") / **unstated assumptio
 
 **When detected**: (1) stop, (2) state observation, (3) ask: "Run /ws.refine or acceptable deviation?" Never silently proceed when specs and reality diverge.
 
-**Applies to OPEN specs only.** For CLOSED specs (located in `specs/_completed/`), code evolution is not "drift" — the spec describes a past state, not a binding contract for current behaviour. Closed specs remain referenceable for archaeology (what shipped, why decisions were made), but auditing current code against them produces false alarms. For current-behaviour fidelity, inspect the project's authoritative surface for that area (`ws._meta/lifecycle.md` § Spec Lifecycle → current-behaviour authority).
+**Applies to OPEN specs only.** For CLOSED specs (located in `specs/_completed/`), code evolution is not "drift" — the spec describes a past state, not a binding contract for current behaviour. Closed specs remain referenceable for archaeology (what shipped, why decisions were made), but auditing current code against them produces false alarms. For current-behaviour fidelity, inspect the project's authoritative surface for that area (`ws._meta/lifecycle.md` § Current-behaviour authority binding).
 
 ## Context Loading Protocol
 

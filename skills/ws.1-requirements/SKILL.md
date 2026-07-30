@@ -113,7 +113,9 @@ As a [user type] I want [goal] So that [benefit]
 
 **Loaded vocabulary**: Words like "available", "current", "bookable", "valid", "live", "active", "ready" *sound* obvious but operationalise differently in code. For every loaded word in an AC, force a definition. "Currently available" = "in the source-of-truth list" or "in that list AND in the future AND not sold-out"? Different code, different production behaviour. If the spec doesn't pin it, the implementation gets to choose silently — and the choice surfaces as a bug after ship.
 
-**AC negative-case discipline (mandatory on money-taking / commitment surfaces)**: Every positive AC on a surface that takes money, sends a message, commits the company, or makes a contractual statement MUST be paired with explicit negative ACs naming the failure modes. "Renders all available classes" -> also "Does not render past classes" + "Does not render sold-out classes" + "Does not render incomplete schedules". Negative ACs catch the deliverability bugs the positive ACs are blind to. Without them, the walking skeleton tests the *shape* and not the *contract* — looks green, ships poison.
+#### AC negative-case discipline
+
+**Mandatory on money-taking / commitment surfaces.** Every positive AC on a surface that takes money, sends a message, commits the company, or makes a contractual statement MUST be paired with explicit negative ACs naming the failure modes. "Renders all available classes" -> also "Does not render past classes" + "Does not render sold-out classes" + "Does not render incomplete schedules". Negative ACs catch the deliverability bugs the positive ACs are blind to. Without them, the walking skeleton tests the *shape* and not the *contract* — looks green, ships poison.
 
 Known failure mode: positive AC reads "renders all currently-available classes". Walking-skeleton test asserts dates ascend, row count is positive, structure matches contract. Declared done. Page sells a seat in a class whose session was last week. Caught only by adversarial review at end of feature. Negative ACs at requirements time would have made this impossible to ship.
 

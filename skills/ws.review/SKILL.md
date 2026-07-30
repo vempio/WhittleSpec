@@ -18,7 +18,7 @@ Skeptical but constructive. Assume author knows domain; surface what they overlo
 
 ## Closed-spec handling
 
-If the spec lives in `specs/_completed/<feature>/`, it is **CLOSED** — a historical run document. Review of a closed spec is rarely useful because it no longer binds current behaviour. Default behaviour: decline review of the closed spec with a brief note that it is referenceable archaeology, not an active contract. If the user wants a fidelity check on current behaviour, redirect to the project's authoritative surface (`ws-binding get current-behaviour-authority`; default: operator-guide / README+API-docs / tests / code — see `ws._meta/lifecycle.md` § Spec Lifecycle → current-behaviour authority). Override only if the user explicitly asks to review the historical spec (e.g., for archaeology or to inform a successor spec).
+If the spec lives in `specs/_completed/<feature>/`, it is **CLOSED** — a historical run document. Review of a closed spec is rarely useful because it no longer binds current behaviour. Default behaviour: decline review of the closed spec with a brief note that it is referenceable archaeology, not an active contract. If the user wants a fidelity check on current behaviour, redirect to the project's authoritative surface (`ws-binding get current-behaviour-authority`; default: operator-guide / README+API-docs / tests / code — see `ws._meta/lifecycle.md` § Current-behaviour authority binding). Override only if the user explicitly asks to review the historical spec (e.g., for archaeology or to inform a successor spec).
 
 See `ws._meta/lifecycle.md` § Capture Surfaces and Commitment Gradient.
 

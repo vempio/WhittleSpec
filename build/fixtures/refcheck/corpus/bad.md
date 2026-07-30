@@ -6,3 +6,5 @@ Each planted defect below must be flagged.
 - A [broken link](missing.md) points at a nonexistent file (dangling link).
 - A section reference `sdd.real` § Nonexistent Heading names no heading in its target.
 - A section reference `sdd.ghost` § Verification Binding names no resolvable target file.
+- A navigating reference `sdd.real` § Capture Surfaces → Discovery-capture binding hides its real target.
+- An ASCII-arrow reference `sdd.real` § Capture Surfaces -> Verification Binding navigates too.

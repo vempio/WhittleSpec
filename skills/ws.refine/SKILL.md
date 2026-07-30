@@ -54,7 +54,7 @@ Discovery -> CURRENT work or FUTURE?
    - **b)** No task file, relates to existing spec/workflow: Append "Future Work"/"Backlog" section.
    - **c)** No task file, no related spec: record it in the work ledger immediately — a tracked issue if a tracker is bound, else a `local` task/spec entry.
    - **d)** Large enough for own workstream (spec kernel): Create `specs/<workflow-name>/seed.md` with full context. If the item came from `specs/_ideas.md`, remove it there; the seed becomes source of truth. Do NOT create a tracker epic yet.
-   - **e)** Belongs to a domain the project captures elsewhere (process/workflow observation, research note): resolve `ws-binding get discovery-capture` and route by the recorded rule. Unbound → no such destination exists here; use (a)-(d). See `ws._meta/lifecycle.md` § Capture Surfaces → Discovery-capture binding.
+   - **e)** Belongs to a domain the project captures elsewhere (process/workflow observation, research note): resolve `ws-binding get discovery-capture` and route by the recorded rule. Unbound → no such destination exists here; use (a)-(d). See `ws._meta/lifecycle.md` § Discovery-capture binding.
    - For all paths: **check tracker implications** (comment on current issue? own issue needed?).
    - Write enough context for self-explanatory reading weeks later.
 

@@ -111,6 +111,8 @@ Adjacent domains (process/workflow observations, content sparks) are exactly wha
 
 A spec is a **run document** for guiding implementation of a significant change. Its scope ends at retro. Post-completion, the spec is a historical artefact describing how a past change was reasoned through — not a live description of current behaviour. Current behaviour lives in the project's **authoritative surface** for that area (see below); specs do not track it forward.
 
+#### Current-behaviour authority binding
+
 <!-- WS:IF-CONFIGURED current-behaviour-authority -->
 Which surface is authoritative for current behaviour is an adapter with a safe default: operator guide, README/API docs, tests, and code, in **precedence by surface** — a workflow's authority is its operator guide; a behaviour's is its tests; an API's is its docs; code is the last resort. A project may bind a custom hierarchy (`ws-binding get current-behaviour-authority`) when its authority differs. Unbound → the default precedence holds; skills read it and never defer to the author's environment.
 <!-- /WS -->

@@ -68,7 +68,7 @@ Most important phase. Every open item leaves retro with concrete destination.
 
 **Step 3: Propose destination per remaining item.**
 
-Resolve `ws-binding get discovery-capture` and offer the defaults below plus whatever the project bound (see `ws._meta/lifecycle.md` § Capture Surfaces → Discovery-capture binding). Unbound → the defaults alone. Never offer a destination the project has not declared, and never leave a retained item without one; do not turn retro into project setup.
+Resolve `ws-binding get discovery-capture` and offer the defaults below plus whatever the project bound (see `ws._meta/lifecycle.md` § Discovery-capture binding). Unbound → the defaults alone. Never offer a destination the project has not declared, and never leave a retained item without one; do not turn retro into project setup.
 
 **Defaults (always available):**
 

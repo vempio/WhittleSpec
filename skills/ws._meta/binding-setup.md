@@ -173,7 +173,7 @@ Where this project's *current* behaviour is authoritative, so audits check the l
 closed spec. The default is assumed and needs no input: operator guide, README/API docs, tests,
 code, in precedence by surface. Only if the project's authority differs, record it: `ws-binding set
 current-behaviour-authority "<hierarchy>"` (e.g. `OpenAPI spec for the API surface; tests for
-behaviour`). Unbound = the default (see `ws._meta/lifecycle.md` § Spec Lifecycle -> current-behaviour authority).
+behaviour`). Unbound = the default (see `ws._meta/lifecycle.md` § Current-behaviour authority binding).
 
 ### discovery-capture
 
@@ -183,5 +183,5 @@ whether the project keeps discoveries anywhere else -- a process/workflow observ
 team knowledge base, a domain-specific capture file. If so, record the destinations and their
 routing rule: `ws-binding set discovery-capture "<destinations>"` (e.g. `process observations ->
 docs/process-backlog.md; research notes -> team wiki`). Unbound = the defaults (see
-`ws._meta/lifecycle.md` § Capture Surfaces -> Discovery-capture binding). `none` means no destination beyond
+`ws._meta/lifecycle.md` § Discovery-capture binding). `none` means no destination beyond
 the local surfaces -- never "nowhere".

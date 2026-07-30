@@ -45,9 +45,13 @@ Acceptable shapes: distinct user-jobs, operator-jobs, or skill-family-members se
 
 Walking-skeleton-with-deferred-branches is a code-shape pattern; it does not transfer to skill / prose / config artefacts. A skeleton that refuses three of five real situations is horizontal scaffolding wearing a skeleton's clothes.
 
-**Per-surface slicing** — one task or slice per tool / function / endpoint / file / command / screen — is horizontal slicing in disguise, and the most common modern form (the forbidden-words list misses it: "one task per endpoint" names no layer). A capability routinely *spans* several surfaces, and binding them into one coherent behaviour is frequently the entire point — so cutting per-surface severs exactly what made it a capability. Discriminator: *is this task a distinct thing the USER does, or a distinct thing the CODE has?* "Update `list_folders`" / "add the `/foo` endpoint" is a thing the code has; "list a folder's messages" / "check out" is a thing the user does. Extending a capability to a genuinely new user-job is vertical (fan-out); splitting one capability across its surfaces is horizontal.
+#### Per-surface slicing
 
-**Exposure is not a slice.** A task whose entire payload is making a capability *visible* — advertising, cataloguing, documenting, adding it to an index / menu / usage-hint — where the capability functions (or will function) without it, is the discoverability-half of another task's behaviour. Merge it. This is the mirror image of leaf-only slicing (which defers exposure *after* behaviour); both split one capability across tasks.
+One task or slice per tool / function / endpoint / file / command / screen — is horizontal slicing in disguise, and the most common modern form (the forbidden-words list misses it: "one task per endpoint" names no layer). A capability routinely *spans* several surfaces, and binding them into one coherent behaviour is frequently the entire point — so cutting per-surface severs exactly what made it a capability. Discriminator: *is this task a distinct thing the USER does, or a distinct thing the CODE has?* "Update `list_folders`" / "add the `/foo` endpoint" is a thing the code has; "list a folder's messages" / "check out" is a thing the user does. Extending a capability to a genuinely new user-job is vertical (fan-out); splitting one capability across its surfaces is horizontal.
+
+#### Exposure is not a slice
+
+A task whose entire payload is making a capability *visible* — advertising, cataloguing, documenting, adding it to an index / menu / usage-hint — where the capability functions (or will function) without it, is the discoverability-half of another task's behaviour. Merge it. This is the mirror image of leaf-only slicing (which defers exposure *after* behaviour); both split one capability across tasks.
 
 ### Artefact size ceilings
 

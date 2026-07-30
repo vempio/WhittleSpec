@@ -38,8 +38,13 @@
 #    abbreviates long headings) -- case-insensitively, with code and emphasis
 #    marks stripped.
 #
-#    Recall bounds (stated, not silent): sub-navigation after `>` / `→` names
-#    bold prose, not headings, so only the section it hangs off is checked. A
+#    Navigation (`§ Parent → Child`) is rejected rather than half-checked: it
+#    validates the parent only, so renaming the child leaves every reference to
+#    it stale behind a green build. Point at the child heading directly, which
+#    is then checked like any other. An arrow AFTER the reference ends (past a
+#    comma, semicolon, colon or bracket) is ordinary prose and is ignored.
+#
+#    Recall bounds (stated, not silent): a
 #    reference written without the section sign is not detected; the corpus
 #    writes `§`. The loose prefix match will accept a shorter heading that
 #    happens to prefix a longer one -- deliberate, so abbreviation stays legal.
@@ -170,10 +175,13 @@ for file in $files; do
 		for (i = 2; i <= nsec; i++) {
 			ref = sec[i]
 			sub(/\*\*.*$/, "", ref)       # a bold-delimited reference ends at the marks
-			sub(/>.*$/, "", ref)          # sub-navigation is prose, not a heading
-			sub(/→.*$/, "", ref)
 			sub(/[,;:()].*$/, "", ref)    # reference ends where the sentence resumes
-			gsub(/^[ \t]+|[ \t-]+$/, "", ref)
+			gsub(/^[ \t]+|[ \t]+$/, "", ref)
+			# Navigation ("§ Parent -> Child") validates the parent only, so a renamed
+			# child goes stale behind a green build. Point at the child directly.
+			nav = (index(ref, ">") > 0 || index(ref, "\342\206\222") > 0)
+			sub(/>.*$/, "", ref); sub(/→.*$/, "", ref)
+			gsub(/[ \t-]+$/, "", ref)
 			# A numbered subsection ("§1a") names its ordinal only; what follows is
 			# prose, and the period in such a heading defeats the prefix match.
 			if (match(ref, /^[0-9]+[a-z]?/)) ref = substr(ref, RSTART, RLENGTH)
@@ -186,7 +194,7 @@ for file in $files; do
 				gsub(/^`|`[ \t]*$/, "", c)
 				if (c ~ /^[a-z][a-z0-9]*(\.[a-z0-9_-]+)+$/ || c ~ /\.md$/) tgt = c
 			}
-			if (ref != "") printf "section\t%d\t%s\t%s\n", FNR, ref, tgt
+			if (ref != "") printf "%s\t%d\t%s\t%s\n", (nav ? "section-nav" : "section"), FNR, ref, tgt
 			ctx = ctx "§" sec[i]
 		}
 	}
@@ -204,6 +212,10 @@ for file in $files; do
 			link)
 				[ -f "$dir/$ref" ] || \
 					printf '%s:%s -> link: %s\n' "$file" "$lineno" "$ref" >> "$tmp"
+				;;
+			section-nav)
+				printf '%s:%s -> section: %s (navigates, point at the heading directly)\n' \
+					"$file" "$lineno" "$ref" >> "$tmp"
 				;;
 			section)
 				case "$name" in
