@@ -137,7 +137,7 @@ of place there stay `local`)?"
 Record the default/floor: `ws-binding set work-ledger "<tracker-or-local>"`. If they chose a split,
 note the routing rule in the `WHITTLESPEC.md` work-ledger section as a short prose rule. There is no
 "none": `local` is always the floor (stable numbers = identity, `[x]`/`[~]` = state; see
-`ws._meta` § Operating Level and Scope).
+`ws._meta/SKILL.md` § Operating Level and Scope).
 
 If the ledger is external, the `Binding:` line names it and the prose beneath says **how it is
 reached** -- which MCP server, CLI or credential, and what to do when it is absent. A consumer that
@@ -165,7 +165,7 @@ the only mechanism it supports — the branches below cover both cases.
   drive it from this recorded how-to, so it must be concrete here, not inferred later.
 
 There is no "none": durable completion is the floor; git-per-task is the recommended default (see
-`ws._meta` § Durability).
+`ws._meta/executing.md` § Durability).
 
 ### current-behaviour-authority
 
@@ -173,7 +173,7 @@ Where this project's *current* behaviour is authoritative, so audits check the l
 closed spec. The default is assumed and needs no input: operator guide, README/API docs, tests,
 code, in precedence by surface. Only if the project's authority differs, record it: `ws-binding set
 current-behaviour-authority "<hierarchy>"` (e.g. `OpenAPI spec for the API surface; tests for
-behaviour`). Unbound = the default (see `ws._meta` § Spec Lifecycle -> current-behaviour authority).
+behaviour`). Unbound = the default (see `ws._meta/lifecycle.md` § Spec Lifecycle -> current-behaviour authority).
 
 ### discovery-capture
 
@@ -183,5 +183,5 @@ whether the project keeps discoveries anywhere else -- a process/workflow observ
 team knowledge base, a domain-specific capture file. If so, record the destinations and their
 routing rule: `ws-binding set discovery-capture "<destinations>"` (e.g. `process observations ->
 docs/process-backlog.md; research notes -> team wiki`). Unbound = the defaults (see
-`ws._meta` § Capture Surfaces -> Discovery-capture binding). `none` means no destination beyond
+`ws._meta/lifecycle.md` § Capture Surfaces -> Discovery-capture binding). `none` means no destination beyond
 the local surfaces -- never "nowhere".

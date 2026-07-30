@@ -4,7 +4,7 @@ description: Autonomous quality pass -- analyze, fix, and report. Usable mid-sli
 ---
 # ws.fix
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/binding-setup.md` (this skill resolves verification, evidence and durability bindings).
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/binding-setup.md` (this skill resolves verification, evidence and durability bindings).
 
 ## Purpose
 
@@ -41,11 +41,11 @@ Four buckets: **BLOCKING** (failed filter 1, blocks progress) / **ASSUMPTIONS** 
 
 ### Phase 3: Act
 
-Fix ASSUMPTIONS and DONE via Edit/Write. ASSUMPTIONS: fix AND flag. Safety net = reversibility: git revert by default, or the bound durability mechanism's undo (`ws-binding get durability`; see `ws._meta` § Durability). Don't touch BLOCKING or REVIEW.
+Fix ASSUMPTIONS and DONE via Edit/Write. ASSUMPTIONS: fix AND flag. Safety net = reversibility: git revert by default, or the bound durability mechanism's undo (`ws-binding get durability`; see `ws._meta/executing.md` § Durability). Don't touch BLOCKING or REVIEW.
 
 ### Phase 4: Verify
 
-Re-run the bound verification against the Phase 1 baseline. Regressions: revert the fix, move to REVIEW. Where verification is `none` there is no count to compare — apply the evidence floor instead (`ws-binding get evidence-profile`; unbound derives from verification, see `ws.4-run` §1b) and show the artefact exercised through its real surface. Persist survivors by the bound durability mechanism (`ws-binding get durability`; see `ws._meta` § Durability and `ws.4-run` §1c, which is where the git default is stated once), labelling the unit as a quality pass with a one-line summary.
+Re-run the bound verification against the Phase 1 baseline. Regressions: revert the fix, move to REVIEW. Where verification is `none` there is no count to compare — apply the evidence floor instead (`ws-binding get evidence-profile`; unbound derives from verification, see `ws.4-run` §1b) and show the artefact exercised through its real surface. Persist survivors by the bound durability mechanism (`ws-binding get durability`; see `ws._meta/executing.md` § Durability and `ws.4-run` §1c, which is where the git default is stated once), labelling the unit as a quality pass with a one-line summary.
 
 ### Phase 5: Summary
 

@@ -4,7 +4,7 @@ description: Level 3 — Break plan into sequenced, atomic work units.
 ---
 # ws.3-tasks
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/parallel-work.md`, `ws._meta/issue-tracking.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/shaping.md`, `ws._meta/lifecycle.md`, `ws._meta/parallel-work.md`, `ws._meta/issue-tracking.md`.
 
 ## Purpose
 
@@ -16,7 +16,7 @@ Break approved plan into concrete, sequenced tasks. Each 30 min - 2 h (see Task 
 
 ### Multi-Slice Projects
 
-Umbrella shape is the **exception, not the default** (see `ws._meta` §Process-Shape Hard Rules). If the spec directory has `plan.md` (no `umbrella-plan.md`) → single-cycle: output `tasks.md`, ignore the rest of this section.
+Umbrella shape is the **exception, not the default** (see `ws._meta/shaping.md` §Process-Shape Hard Rules). If the spec directory has `plan.md` (no `umbrella-plan.md`) → single-cycle: output `tasks.md`, ignore the rest of this section.
 
 If `umbrella-plan.md` exists with a **Slice Status** table (umbrella already adopted — verify, don't infer): pick which slice to task (ask if unclear). Scope to that slice; reference umbrella specs for context. Output `tasks-<slice>.md`.
 
@@ -136,7 +136,7 @@ Cross-check `plan.md` / `umbrella-plan.md` / `decisions.md` too: any prescriptiv
 
 **Underwhelm test (mandatory, ALL tasks)**: Imagine showing demo to senior stakeholder. "You called me in for *this*?" -> too thin or demo hides payoff. Merge thin tasks or rewrite demo.
 
-**Severed-capability / exposure test (mandatory, ALL tasks)**: Name the capability each task serves in one user-job phrase — a thing the user *does*. Then ask: *is this task's entire payload making a capability visible — advertising, cataloguing, documenting, adding to an index / menu / usage-hint — where the capability functions, or will function, without it?* If yes, it is not a slice; it is the exposure-half of another task's behaviour — merge it into the task delivering that behaviour. Discoverability ships WITH its capability, never as its own task. Equally reject **per-surface slicing** (one task per tool / function / endpoint) when those surfaces compose one capability. See `ws._meta` § Slicing > Per-surface slicing + Exposure is not a slice. This test fires where the per-task Reachability pass cannot: an exposure-only task is independently demoable and "wires into prod," so it passes Reachability while still being horizontal.
+**Severed-capability / exposure test (mandatory, ALL tasks)**: Name the capability each task serves in one user-job phrase — a thing the user *does*. Then ask: *is this task's entire payload making a capability visible — advertising, cataloguing, documenting, adding to an index / menu / usage-hint — where the capability functions, or will function, without it?* If yes, it is not a slice; it is the exposure-half of another task's behaviour — merge it into the task delivering that behaviour. Discoverability ships WITH its capability, never as its own task. Equally reject **per-surface slicing** (one task per tool / function / endpoint) when those surfaces compose one capability. See `ws._meta/shaping.md` § Slicing > Per-surface slicing + Exposure is not a slice. This test fires where the per-task Reachability pass cannot: an exposure-only task is independently demoable and "wires into prod," so it passes Reachability while still being horizontal.
 
 **Reachability pass (mandatory, every task that produces user-facing output)**: User-facing = page, screen, URL, command, generated artefact a person consumes — not internal modules, refactors, or schema migrations. For each such task, produce TWO outputs *before* the compliance gate. They are complementary: the boss demo forces narrative concreteness; the regret scenarios force adversarial generation. A leaf-only slice that survives one tends to die in the other.
 
@@ -168,7 +168,7 @@ Cross-check `plan.md` / `umbrella-plan.md` / `decisions.md` too: any prescriptiv
 
 If the boss can't get from "Find me X" to "ah, here it is" through their own actions on the running product — OR if any of the three regret scenarios reads "exists but unreachable" — the task is not a vertical slice. It is a leaf labelled as one.
 
-Known failure mode: **leaf-only slicing**. Task ships a renderable page or generated artefact; menu entry, index link, or sitemap inclusion gets sequenced to a later task. Sounds reasonable ("content first, navigation later"), IS the well-trodden pattern in training data (MVC layering, "data layer first", "scaffolding then polish"), and IS horizontal scaffolding wearing a slice's clothes. The forbidden-words list in `ws._meta` § Slicing must never be justified by architecture catches *justification* language (`skeleton-then-flesh-out`, `walking-skeleton-with-deferred-X`) but not plain-English equivalents like "don't open discoverability until content is complete" — same antipattern, different words. The two outputs catch it two ways: the boss's narrated actions cannot reach the new artefact without the LLM noticing the gap mid-walkthrough; the regret scenarios cannot be honestly enumerated without one of them reading "exists but no one can find it." A smooth demo papered over the gap? The regret scenarios should still surface it. Vague regret scenarios that miss the gap? The boss demo should still trip on the unreachable click. Both fake at once would require the LLM to actively lie in two complementary registers — much higher friction than letting one slip.
+Known failure mode: **leaf-only slicing**. Task ships a renderable page or generated artefact; menu entry, index link, or sitemap inclusion gets sequenced to a later task. Sounds reasonable ("content first, navigation later"), IS the well-trodden pattern in training data (MVC layering, "data layer first", "scaffolding then polish"), and IS horizontal scaffolding wearing a slice's clothes. The forbidden-words list in `ws._meta/shaping.md` § Slicing must never be justified by architecture catches *justification* language (`skeleton-then-flesh-out`, `walking-skeleton-with-deferred-X`) but not plain-English equivalents like "don't open discoverability until content is complete" — same antipattern, different words. The two outputs catch it two ways: the boss's narrated actions cannot reach the new artefact without the LLM noticing the gap mid-walkthrough; the regret scenarios cannot be honestly enumerated without one of them reading "exists but no one can find it." A smooth demo papered over the gap? The regret scenarios should still surface it. Vague regret scenarios that miss the gap? The boss demo should still trip on the unreachable click. Both fake at once would require the LLM to actively lie in two complementary registers — much higher friction than letting one slip.
 
 Known failure mode (mirror): **exposure-as-its-own-task**. Real case — an alias-resolution feature sliced as: Tasks 1-2 deliver the resolver and wire it into the message tools; Task 3 "rebuild `list_folders` to advertise the aliases." Task 3 passed every per-task check — `list_folders` is independently demoable, "wires into prod" was literally yes, and its three regret scenarios were all internal bugs (miscategorised INBOX, phantom rows, weak wording). It was still horizontal: the discoverability-half of the capability whose behaviour shipped in Tasks 1-2, leaving a window where the agent's own catalog taught the localized folder names while the tools wanted the aliases. The cross-cut regret that kills it — "ship 1-2 without 3 → the catalog contradicts the tools" — was never generated, because per-task checks cannot see cross-task severance. Caught only by the human. This is why the cross-cut regret (Output B) and the separate-context review (below) are mandatory, not the per-task demo.
 
@@ -349,7 +349,7 @@ BDD `@docs` scenario verifies doc exists. Written incrementally during `ws.tdd.g
 
 ## Tracker Sync
 
-Tasks ready = work committed. First resolve the work ledger (`ws-binding get work-ledger`; see `ws._meta` § Work-ledger binding): `local` → the task file itself IS the durable committed record (stable numbers = identity, `[x]`/`[~]` = state); no external issues — skip the rest of this section. When a tracker is bound, make the work visible there at the org's granularity:
+Tasks ready = work committed. First resolve the work ledger (`ws-binding get work-ledger`; see `ws._meta/SKILL.md` § Work-ledger binding): `local` → the task file itself IS the durable committed record (stable numbers = identity, `[x]`/`[~]` = state); no external issues — skip the rest of this section. When a tracker is bound, make the work visible there at the org's granularity:
 
 **Issue exists**: Verify scope matches. Shifted during planning -> suggest updates.
 
@@ -367,9 +367,9 @@ One issue per logical group. After confirmation, create tracked issues, update `
 
 From `ws._meta`, not optional:
 
-1. **Compaction pass** — re-read and cut. Target ≥ 20% on first pass (`ws._meta` §Condensation is a deliverable).
-2. **Attention-budget check** — ask: *"Is this still shorter than your attention span for one sitting?"* (`ws._meta` §Attention Budget).
-3. **Size ceiling** — check against `ws._meta` §Artefact size ceilings for `tasks.md`. Past hard cap → *merge over-granular tasks* or *split scope*, not "umbrella by reflex".
+1. **Compaction pass** — re-read and cut. Target ≥ 20% on first pass (`ws._meta/shaping.md` §Condensation is a deliverable).
+2. **Attention-budget check** — ask: *"Is this still shorter than your attention span for one sitting?"* (`ws._meta/shaping.md` §Attention Budget).
+3. **Size ceiling** — check against `ws._meta/shaping.md` §Artefact size ceilings for `tasks.md`. Past hard cap → *merge over-granular tasks* or *split scope*, not "umbrella by reflex".
 
 ### Readiness checklist
 

@@ -4,7 +4,7 @@ description: Elicit and document WHAT and WHY from user perspective. Includes MV
 ---
 # ws.1-requirements
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override).
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/shaping.md`, `ws._meta/lifecycle.md`.
 
 ## Purpose
 
@@ -48,7 +48,7 @@ Check prior context: **Spec seed** (`specs/<feature>/seed.md`) / **Spike results
 
 ## Output
 
-Write to `requirements.md` (single-cycle, default) or `umbrella-requirements.md` (when the user has explicitly adopted umbrella shape -- see `ws._meta` §Umbrella is a user-owned mental-load device). Path: `specs/<feature>/<filename>`. The mandated shape is the Decisions/Context split defined in `ws._meta` — Decisions = what the user must react to, Context = the record. See meta §Artefact size ceilings and §Decisions/Context split for caps, rationale, and hard-cap response.
+Write to `requirements.md` (single-cycle, default) or `umbrella-requirements.md` (when the user has explicitly adopted umbrella shape -- see `ws._meta/shaping.md` §Umbrella is a user-owned mental-load device). Path: `specs/<feature>/<filename>`. The mandated shape is the Decisions/Context split defined in `ws._meta` — Decisions = what the user must react to, Context = the record. See meta §Artefact size ceilings and §Decisions/Context split for caps, rationale, and hard-cap response.
 
 ```markdown
 # Feature: [Name]

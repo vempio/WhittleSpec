@@ -4,7 +4,7 @@ description: Review specs for gaps, ambiguity, over-specification. Covers value,
 ---
 # ws.review
 
-Load shared context: `ws._meta/SKILL.md` + `ws._meta/issue-tracking.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/lifecycle.md`, `ws._meta/issue-tracking.md`.
 
 ## Purpose
 
@@ -18,9 +18,9 @@ Skeptical but constructive. Assume author knows domain; surface what they overlo
 
 ## Closed-spec handling
 
-If the spec lives in `specs/_completed/<feature>/`, it is **CLOSED** — a historical run document. Review of a closed spec is rarely useful because it no longer binds current behaviour. Default behaviour: decline review of the closed spec with a brief note that it is referenceable archaeology, not an active contract. If the user wants a fidelity check on current behaviour, redirect to the project's authoritative surface (`ws-binding get current-behaviour-authority`; default: operator-guide / README+API-docs / tests / code — see `ws._meta` § Spec Lifecycle → current-behaviour authority). Override only if the user explicitly asks to review the historical spec (e.g., for archaeology or to inform a successor spec).
+If the spec lives in `specs/_completed/<feature>/`, it is **CLOSED** — a historical run document. Review of a closed spec is rarely useful because it no longer binds current behaviour. Default behaviour: decline review of the closed spec with a brief note that it is referenceable archaeology, not an active contract. If the user wants a fidelity check on current behaviour, redirect to the project's authoritative surface (`ws-binding get current-behaviour-authority`; default: operator-guide / README+API-docs / tests / code — see `ws._meta/lifecycle.md` § Spec Lifecycle → current-behaviour authority). Override only if the user explicitly asks to review the historical spec (e.g., for archaeology or to inform a successor spec).
 
-See `ws._meta` § Capture Surfaces and Commitment Gradient.
+See `ws._meta/lifecycle.md` § Capture Surfaces and Commitment Gradient.
 
 ## Modes
 

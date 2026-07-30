@@ -95,7 +95,7 @@ confused with this one. Skip if the boundary is obvious.>
 - **Graduation to a tracked issue:** if pondering reveals the work is
   small / clear enough to skip spec rigor, create a tracked issue and
   delete `seed.md`. The issue is now source of truth; no pointer
-  entry stays behind (see `ws._meta` § Capture Surfaces).
+  entry stays behind (see `ws._meta/lifecycle.md` § Capture Surfaces).
 - **Graduation back to idea:** rare but valid. If engagement drops
   and the seed loses its Recommended Next Step, demote it: append
   to `_ideas.md` and delete the seed directory.

@@ -4,7 +4,7 @@ description: Bootstrap or re-scope a project -- capture intent, seed first specs
 ---
 # ws.init
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override).
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/shaping.md`, `ws._meta/lifecycle.md`.
 
 ## Purpose
 
@@ -84,7 +84,7 @@ Where a strategy/planning area exists: **Exploratory**: No link needed. **Operat
 
 ### 5. Work-ledger Posture
 
-Resolve the work ledger (`ws-binding get work-ledger`; see `ws._meta` § Work-ledger binding). `local` → track in the SDD spec/task files (or PROJECT_INTENT.md while exploratory); no external issues. When a tracker is bound, at the org's granularity:
+Resolve the work ledger (`ws-binding get work-ledger`; see `ws._meta/SKILL.md` § Work-ledger binding). `local` → track in the SDD spec/task files (or PROJECT_INTENT.md while exploratory); no external issues. When a tracker is bound, at the org's granularity:
 
 **Exploratory**: No tracker issue. Track in PROJECT_INTENT.md. Create if/when graduating. **Operational**: Epic when first feature concrete enough for `/ws.1-requirements`. Until then, an issue under an existing epic if anchor needed. **Strategic**: Epic linked to initiative. Create after `/ws.0-start` or now if scope clear.
 

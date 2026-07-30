@@ -4,7 +4,7 @@ description: Completeness sweep -- exhaustively verify nothing was missed after 
 ---
 # ws.sweep
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override).
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`.
 
 ## Purpose
 
@@ -36,7 +36,7 @@ For changes affecting URLs/routes/content transformed before delivery (Hugo temp
 
 ### 4. Structural Consistency Check
 
-Beyond text patterns -- verify structural integrity: **Cross-references**: "see document B, section X" -- does that section still exist? / **Indexes/listings**: README lists commands/files/modules -- matches what actually exists? / **Sequences**: Still flow after change? / **Transitions**: "proceed to B" -- B still right next step? / **Scope claims**: "covers X, Y, Z" -- still accurate? / **Internal consistency**: Heading, frontmatter, body all agree? / **Parallel structures**: Several files follow same pattern -- change maintained it? / **Work ledger** (per `ws._meta` § Work-ledger binding): tracker bound — linked issues still match spec reality? `local` — the task/spec files are internally consistent with what shipped?
+Beyond text patterns -- verify structural integrity: **Cross-references**: "see document B, section X" -- does that section still exist? / **Indexes/listings**: README lists commands/files/modules -- matches what actually exists? / **Sequences**: Still flow after change? / **Transitions**: "proceed to B" -- B still right next step? / **Scope claims**: "covers X, Y, Z" -- still accurate? / **Internal consistency**: Heading, frontmatter, body all agree? / **Parallel structures**: Several files follow same pattern -- change maintained it? / **Work ledger** (per `ws._meta/SKILL.md` § Work-ledger binding): tracker bound — linked issues still match spec reality? `local` — the task/spec files are internally consistent with what shipped?
 
 ### 4b. CLI Usability and Documentation Smoke Test
 

@@ -1,4 +1,4 @@
-# SDD Reference: Issue Tracker Integration & Idea Lifecycle
+# WhittleSpec Reference: Issue Tracker Integration & Idea Lifecycle
 
 ## Issue Tracker Integration
 
@@ -39,7 +39,7 @@ Both paths converge: by the time `/ws.4-run` starts, the tracker should reflect 
 
 ### Guidelines
 
-- **Consume the work-ledger binding first.** Before any tracker action below (create / reference / transition / close), resolve `ws-binding get work-ledger` (per `ws._meta` § Work-ledger binding). `local` → the SDD task/spec files ARE the durable ledger: no external issues, no nag, the files are authoritative. A bound tracker → the guidance below applies. A split → route each item by the recorded rule (official/outcome-bearing → tracker; small/technical/personal → `local`).
+- **Consume the work-ledger binding first.** Before any tracker action below (create / reference / transition / close), resolve `ws-binding get work-ledger` (per `ws._meta/SKILL.md` § Work-ledger binding). `local` → the SDD task/spec files ARE the durable ledger: no external issues, no nag, the files are authoritative. A bound tracker → the guidance below applies. A split → route each item by the recorded rule (official/outcome-bearing → tracker; small/technical/personal → `local`).
 - **Link, don't duplicate**: Tracked issue(s) link to `specs/<feature>/`. Don't copy tasks.md into tracker subtasks. Large features may span multiple issues; small features may share one.
 - **Transition issues actively**: When starting work (`/ws.4-run`), move the relevant issues to "In Progress". Don't leave the tracker stale while work is happening.
 - **Keep tracker and specs in sync**: When `/ws.refine` changes scope, check whether tracked issues need updating (scope changed, slice added/removed, reprioritized). When issues are updated externally, check whether specs need updating.
@@ -68,7 +68,7 @@ Tracker epic/issue         Created when work is committed, not before
 
 **Key rule**: The tracker holds *committed* work. Ideas, seeds, specs, and tracked issues are exclusive source-of-truth surfaces. Don't mirror the same item across `_ideas.md` and a seed/spec/tracked issue; move it when it graduates. Don't create tracker issues for seeds -- that bloats the backlog with undecided items.
 
-The surfaces above are the defaults. A project may bind extra or replacement destinations for discoveries this pipeline doesn't cover -- resolve `ws-binding get discovery-capture` and route by the recorded rule rather than forcing every discovery into the ideas/seed/tracker path. See `ws._meta` § Capture Surfaces → Discovery-capture binding.
+The surfaces above are the defaults. A project may bind extra or replacement destinations for discoveries this pipeline doesn't cover -- resolve `ws-binding get discovery-capture` and route by the recorded rule rather than forcing every discovery into the ideas/seed/tracker path. See `ws._meta/lifecycle.md` § Capture Surfaces → Discovery-capture binding.
 
 **Creating a seed** (via `/ws.refine` path d):
 

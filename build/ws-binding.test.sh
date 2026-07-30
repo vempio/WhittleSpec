@@ -628,12 +628,13 @@ test_task1_binding_prose_wrapped_if_configured() {  # AC4
   #         the region closes with "<!-- /WS -->", every WS opener in the file
   #         has a matching closer (balanced), and the enclosed text mentions
   #         verification (the marker wraps the right passage).
-  grep -Fq -- '<!-- WS:IF-CONFIGURED verification-binding -->' "$META" \
-    || { fail "missing IF-CONFIGURED opener for verification-binding"; return; }
-  opens="$(grep -c -- '<!-- WS:' "$META" 2>/dev/null)"; opens="${opens:-0}"
-  closes="$(grep -c -- '<!-- /WS -->' "$META" 2>/dev/null)"; closes="${closes:-0}"
-  [ "$opens" -eq "$closes" ] || { fail "unbalanced markers: $opens openers vs $closes closers"; return; }
-  enclosed="$(awk '/<!-- WS:IF-CONFIGURED verification-binding -->/{f=1;next} /<!-- \/WS -->/{if(f)exit} f' "$META")"
+  home="$(grep -rl -- '<!-- WS:IF-CONFIGURED verification-binding -->' "$SKILLS/ws._meta" | head -1)"
+  [ -n "$home" ] \
+    || { fail "no ws._meta file carries the verification-binding opener"; return; }
+  opens="$(grep -c -- '<!-- WS:' "$home" 2>/dev/null)"; opens="${opens:-0}"
+  closes="$(grep -c -- '<!-- /WS -->' "$home" 2>/dev/null)"; closes="${closes:-0}"
+  [ "$opens" -eq "$closes" ] || { fail "unbalanced markers in $home: $opens vs $closes"; return; }
+  enclosed="$(awk '/<!-- WS:IF-CONFIGURED verification-binding -->/{f=1;next} /<!-- \/WS -->/{if(f)exit} f' "$home")"
   case "$enclosed" in
     *[Vv]erification*) : ;;
     *) fail "verification-binding region must mention verification, got '$enclosed'"; return ;;

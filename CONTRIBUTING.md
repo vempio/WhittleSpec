@@ -32,6 +32,21 @@ The names that trip it are concrete runners and harness paths: `make test`,
 exactly that reason, which is the shortest available demonstration of the rule.
 <!-- /WS -->
 
+**Every adapter has one region.** An adapter's IF-CONFIGURED doctrine lives in one
+place, so two changes to different adapters never collide in the same prose:
+
+| marker id | doctrine lives in |
+|---|---|
+| `verification-binding` | `ws._meta/executing.md` § Verification Binding |
+| `durability` | `ws._meta/executing.md` § Durability binding |
+| `work-ledger` | `ws._meta/SKILL.md` § Work-ledger binding |
+| `discovery-capture` | `ws._meta/lifecycle.md` § Discovery-capture binding |
+| `current-behaviour-authority` | `ws._meta/lifecycle.md` § Spec Lifecycle |
+| `closure-mechanism` | `ws.9-retro/SKILL.md` |
+
+`build/mechanism-inventory.md` is what the validator checks ids against; this table
+says where to go and read.
+
 ## The three invariants
 
 `context/constraints.md` holds them in full, each with a violation test. In short:

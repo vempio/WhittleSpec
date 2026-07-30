@@ -111,11 +111,15 @@ test_rejects_bare_harness_path() { _cur=$FUNCNAME
   case "$_err" in *CORE-mechanism*) pass ;; *) fail "class not named: $_err";; esac
 }
 
-# --- 9: the real Slice-1 verification-binding block validates clean ----------
-test_passes_real_slice1_marked_block() { _cur=$FUNCNAME
+# --- 9: the real verification-binding block validates clean ------------------
+# Its home is discovered, not assumed: doctrine moves between the spine and its
+# chapters, and a hard-coded path would fail here for the wrong reason.
+test_passes_real_marked_block() { _cur=$FUNCNAME
   d=$(mktemp -d); blk="$d/block.md"
+  home=$(grep -rl -- '<!-- WS:IF-CONFIGURED verification-binding -->' "$here/../skills/ws._meta" | head -1)
+  [ -n "$home" ] || { fail "no ws._meta file carries the verification-binding opener"; return; }
   awk '/<!-- WS:IF-CONFIGURED verification-binding -->/{f=1} f{print} /<!-- \/WS -->/{if(f)exit}' \
-    "$here/../skills/ws._meta/SKILL.md" > "$blk"
+    "$home" > "$blk"
   mkinv "$d/inv" 'verification-binding: WHITTLESPEC verification adapter (IF-CONFIGURED)'
   _run --inventory "$d/inv" "$blk"; rm -rf "$d"
   [ "$_rc" -eq 0 ] || { fail "real marked block should validate clean, got $_rc: $_err"; return; }

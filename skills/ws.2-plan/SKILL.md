@@ -4,7 +4,7 @@ description: Level 2 — Define HOW at structural level, including vertical slic
 ---
 # ws.2-plan
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/parallel-work.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/shaping.md`, `ws._meta/lifecycle.md`, `ws._meta/parallel-work.md`.
 
 ## Purpose
 
@@ -25,7 +25,7 @@ Meaningful alternatives: 2-3 options with trade-offs, risks, recommendation + re
 
 ### 4. Identify Walking Skeleton
 
-Lead with user/operator framing, not layered framing (see `ws._meta` §Slicing must never be justified by architecture — slice must be statable in one sentence using no technical nouns).
+Lead with user/operator framing, not layered framing (see `ws._meta/shaping.md` §Slicing must never be justified by architecture — slice must be statable in one sentence using no technical nouns).
 
 Ask in this order:
 1. **"What's the thinnest user-or-operator-observable end-to-end path?"** — name the smallest concrete thing someone outside the codebase could watch happen.
@@ -110,10 +110,10 @@ Write to `plan.md` (single-cycle, default) or `umbrella-plan.md` (when the user 
 
 Both passes come from `ws._meta` and are not optional.
 
-1. **Compaction pass** — re-read `plan.md` / `umbrella-plan.md` and cut. Target ≥ 20% reduction on first compaction. If 20% will not come out, either the draft was already tight (rare on first pass) or compaction was not attempted. See `ws._meta` §Condensation is a deliverable.
-2. **Attention-budget check** — ask explicitly: *"Is this still shorter than your attention span for one sitting?"* If no, split or cut before adding more (see `ws._meta` §Attention Budget). Length is not rigor; attended length is.
+1. **Compaction pass** — re-read `plan.md` / `umbrella-plan.md` and cut. Target ≥ 20% reduction on first compaction. If 20% will not come out, either the draft was already tight (rare on first pass) or compaction was not attempted. See `ws._meta/shaping.md` §Condensation is a deliverable.
+2. **Attention-budget check** — ask explicitly: *"Is this still shorter than your attention span for one sitting?"* If no, split or cut before adding more (see `ws._meta/shaping.md` §Attention Budget). Length is not rigor; attended length is.
 
-Also check against `ws._meta` §Artefact size ceilings for `plan.md` / `umbrella-plan.md`. Past the hard cap, re-run `/ws.0-start` — the level was wrong.
+Also check against `ws._meta/shaping.md` §Artefact size ceilings for `plan.md` / `umbrella-plan.md`. Past the hard cap, re-run `/ws.0-start` — the level was wrong.
 
 ### Readiness checklist
 

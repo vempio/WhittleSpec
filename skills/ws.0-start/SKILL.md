@@ -4,7 +4,7 @@ description: Entry point to SDD work — calibrate how much ceremony fits this t
 ---
 # ws.0-start
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override).
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/shaping.md`.
 
 ## Purpose
 
@@ -44,7 +44,7 @@ Check existing context: project intent (`PROJECT_INTENT.md`) / spec seed (`specs
 
 **Before Level 2+**: Check if uncertainty blocks specifying. Signs you need `/ws.spike` first: can't write requirements (don't understand how it should work) / multiple valid approaches with unclear trade-offs / technical feasibility uncertain / UX needs experiencing, not describing. High uncertainty -> `/ws.spike` before `/ws.1-requirements`.
 
-**Level 4 (last resort)**: Single-cycle is the default at *every* level (see `ws._meta` §Process-Shape Hard Rules > Default is single-cycle). Reaching Level 4 does not mean "go umbrella". The default response to a > 3-day estimate is **N single-cycle Level 3 projects in adjacent directories**, not one umbrella spec covering all of them. Two related projects are two projects, not an umbrella. Umbrella shape is reserved for the rare case where the user genuinely cannot hold the whole thing in working memory (see meta §Umbrella is a user-owned mental-load device). The LLM **may not** propose umbrella shape unprompted; if load signals appear it may raise the question **once**, and the user decides.
+**Level 4 (last resort)**: Single-cycle is the default at *every* level (see `ws._meta/shaping.md` §Process-Shape Hard Rules > Default is single-cycle). Reaching Level 4 does not mean "go umbrella". The default response to a > 3-day estimate is **N single-cycle Level 3 projects in adjacent directories**, not one umbrella spec covering all of them. Two related projects are two projects, not an umbrella. Umbrella shape is reserved for the rare case where the user genuinely cannot hold the whole thing in working memory (see meta §Umbrella is a user-owned mental-load device). The LLM **may not** propose umbrella shape unprompted; if load signals appear it may raise the question **once**, and the user decides.
 
 Recommend in this order:
 1. **Split into N single-cycle Level 3 projects** (default). Name them; suggest directory layout (`projects/<a>/`, `projects/<b>/`).
@@ -53,7 +53,7 @@ Recommend in this order:
 
 ### 4. Adapter Binding (WhittleSpec setup)
 
-WhittleSpec reads project-specific bindings from `WHITTLESPEC.md` via the `ws-binding` accessor. Consuming skills never hardcode these (see `ws._meta` § Layer Model and § Verification Binding).
+WhittleSpec reads project-specific bindings from `WHITTLESPEC.md` via the `ws-binding` accessor. Consuming skills never hardcode these (see `ws._meta/SKILL.md` § Layer Model and `ws._meta/executing.md` § Verification Binding).
 
 **Report binding state** (as part of assessment, always): run `ws-binding get verification` in the project root. Exit 0 → a verification binding exists; report it. Exit 3 (no `WHITTLESPEC.md`) → report "unconfigured".
 

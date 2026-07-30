@@ -4,7 +4,7 @@ description: Timeboxed experiment to reduce uncertainty before specifying.
 ---
 # ws.spike
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override).
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/lifecycle.md`.
 
 ## Purpose
 Can't specify because understanding too shallow? Run spike. Timeboxed experiment to gain knowledge -- not deliverable code.

@@ -4,7 +4,7 @@ description: Mid-flight adjustment — incorporate learning, restructure tasks, 
 ---
 # ws.refine
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/parallel-work.md`, `ws._meta/issue-tracking.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/shaping.md`, `ws._meta/lifecycle.md`, `ws._meta/parallel-work.md`, `ws._meta/issue-tracking.md`.
 
 ## Purpose
 
@@ -43,7 +43,7 @@ Discovery -> CURRENT work or FUTURE?
    - **Scope movement within reason**: Subtasks/ACs may move between tasks, but each must remain closed, verifiable, valuable increment. Walking skeleton and vertical slice compliance from `/ws.3-tasks` still apply.
    - **Review restructured list**: Verify vertical slice compliance. Each task must leave project testable, wire into production, advance BDD/docs where applicable.
    - **Warn about in-flight interference**: If restructuring affects `[~]` task, warn explicitly about parallel session conflicts.
-7. **Check work-ledger alignment** (resolve `ws-binding get work-ledger`; see `ws._meta` § Work-ledger binding) -- tracker bound: scope change affect the linked issue? (Summary mismatch, new slice, ACs shifted.) Update the issue or create a new one? If no reference yet, does this tip work into "committed" territory? `local`: the task/spec files are the record — keep them current, no external issue.
+7. **Check work-ledger alignment** (resolve `ws-binding get work-ledger`; see `ws._meta/SKILL.md` § Work-ledger binding) -- tracker bound: scope change affect the linked issue? (Summary mismatch, new slice, ACs shifted.) Update the issue or create a new one? If no reference yet, does this tip work into "committed" territory? `local`: the task/spec files are the record — keep them current, no external issue.
 
 ### 3b. Defer (Future Work)
 
@@ -54,7 +54,7 @@ Discovery -> CURRENT work or FUTURE?
    - **b)** No task file, relates to existing spec/workflow: Append "Future Work"/"Backlog" section.
    - **c)** No task file, no related spec: record it in the work ledger immediately — a tracked issue if a tracker is bound, else a `local` task/spec entry.
    - **d)** Large enough for own workstream (spec kernel): Create `specs/<workflow-name>/seed.md` with full context. If the item came from `specs/_ideas.md`, remove it there; the seed becomes source of truth. Do NOT create a tracker epic yet.
-   - **e)** Belongs to a domain the project captures elsewhere (process/workflow observation, research note): resolve `ws-binding get discovery-capture` and route by the recorded rule. Unbound → no such destination exists here; use (a)-(d). See `ws._meta` § Capture Surfaces → Discovery-capture binding.
+   - **e)** Belongs to a domain the project captures elsewhere (process/workflow observation, research note): resolve `ws-binding get discovery-capture` and route by the recorded rule. Unbound → no such destination exists here; use (a)-(d). See `ws._meta/lifecycle.md` § Capture Surfaces → Discovery-capture binding.
    - For all paths: **check tracker implications** (comment on current issue? own issue needed?).
    - Write enough context for self-explanatory reading weeks later.
 

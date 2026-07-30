@@ -4,7 +4,7 @@ description: Where are we? Assess current state and suggest next action.
 ---
 # ws.status
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/parallel-work.md`, `ws._meta/prompt-index.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/lifecycle.md`, `ws._meta/parallel-work.md`, `ws._meta/prompt-index.md`.
 
 ## Purpose
 
@@ -30,7 +30,7 @@ specs/                              specs/<feature>/
 
 Shape detection: `umbrella-requirements.md` (or `umbrella-plan.md` / `umbrella-retro.md`) present = umbrella project. Otherwise single-cycle. Read Slice Status from `umbrella-plan.md` for umbrella projects. Also check `specs/<feature>/context/` (spike-*.md / research.md / decisions.md), `context/` (principles.md / glossary.md), or `PROJECT_PRINCIPLES.md` / `CLAUDE.md` / `AGENTS.md` in root.
 
-**Closed specs**: if the feature is located in `specs/_completed/<feature>/`, it is CLOSED — historical run document. Do not propose implementation work on it. If status was invoked on a closed spec, report briefly that it's closed (with completion date from INDEX.md or retro), summarize what it shipped, and point to the project's authoritative current-behaviour surface (`ws-binding get current-behaviour-authority`; default docs+tests+code) if one is known. See `ws._meta` § Spec Lifecycle → current-behaviour authority.
+**Closed specs**: if the feature is located in `specs/_completed/<feature>/`, it is CLOSED — historical run document. Do not propose implementation work on it. If status was invoked on a closed spec, report briefly that it's closed (with completion date from INDEX.md or retro), summarize what it shipped, and point to the project's authoritative current-behaviour surface (`ws-binding get current-behaviour-authority`; default docs+tests+code) if one is known. See `ws._meta/lifecycle.md` § Spec Lifecycle → current-behaviour authority.
 
 ### 2. Assess State
 

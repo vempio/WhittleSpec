@@ -1,4 +1,4 @@
-# SDD Reference: Parallel Work
+# WhittleSpec Reference: Parallel Work
 
 When multiple Claude sessions (or humans) work concurrently on the same
 codebase, SDD helps identify opportunities and track what's in-flight.

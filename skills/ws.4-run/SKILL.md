@@ -4,7 +4,7 @@ description: Execute a single task from the task file, enforcing constraints.
 ---
 # ws.4-run
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/parallel-work.md`, `ws._meta/issue-tracking.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/parallel-work.md`, `ws._meta/issue-tracking.md`.
 
 ## Purpose
 
@@ -15,14 +15,14 @@ Shift from Planning to Execution. Load specific task from task file, lock in con
 ### 1. Load Context
 **Task file discovery**: 1) If user specified file, use it. 2) If exactly one `tasks*.md` in spec directory, use it. 3) If multiple `tasks-*.md` and none specified, list and ask. Read discovered task file and `plan.md` / `umbrella-plan.md` (whichever exists).
 
-**Work-ledger check**: Resolve the work ledger first — `ws-binding get work-ledger` (see `ws._meta` § Operating Level and Scope); never assume an external tracker.
+**Work-ledger check**: Resolve the work ledger first — `ws-binding get work-ledger` (see `ws._meta/SKILL.md` § Operating Level and Scope); never assume an external tracker.
 
 - **`local`** → the SDD task files ARE the durable ledger (stable task numbers = identity, `[x]`/`[~]` = state). Do **not** propose creating external tickets or expect tracked-issue references; the task file is authoritative. Proceed.
 - **an external tracker** → verify `requirements.md` / `umbrella-requirements.md` has tracked-issue reference(s). If missing: propose what to create — read the task file to derive the container + issue breakdown *at the org's granularity* (see `/ws.3-tasks` Tracker Sync), present suggestion. User can create issues now / confirm tracking handled elsewhere / proceed without (but make invisibility cost explicit). If present: check whether the linked issue(s) should transition (e.g., move to "In Progress").
 
 ### 1a. Resolve the verification binding (never hardcode)
 
-The project's "full verification check" is a binding, not a fixed command (see `ws._meta` § Verification Binding). Whenever this skill runs that check — the completion-gate test run, a "run the tests" step, the invariant comparison — resolve it; never assume a fixed runner.
+The project's "full verification check" is a binding, not a fixed command (see `ws._meta/executing.md` § Verification Binding). Whenever this skill runs that check — the completion-gate test run, a "run the tests" step, the invariant comparison — resolve it; never assume a fixed runner.
 
 <!-- WS:EXAMPLE runner-counterexample -->
 Concretely, the assumption to avoid: `make test` or `pytest` because they are common, rather than because the project bound them.
@@ -34,7 +34,7 @@ Concretely, the assumption to avoid: `make test` or `pytest` because they are co
 Branch on the outcome:
 
 - **ok** (validate exit 0, value ≠ `none`) → run that exact command as the verification.
-- **`none`** (get returns `none`) → the project has no automated check; completion evidence is a demonstration, not a test pass (see `ws._meta` § Exercise-Verified). Do not invent a command.
+- **`none`** (get returns `none`) → the project has no automated check; completion evidence is a demonstration, not a test pass (see `ws._meta/executing.md` § Exercise-Verified). Do not invent a command.
 - **no record** (exit 3) → not configured. Load `ws._meta/binding-setup.md` and run its `verification` block inline, or name that exact action for the operator. Do not route through a full `/ws.0-start` assessment for one binding, and do not guess.
 - **command missing** (validate exit 4) → fail loudly, name the command, and offer to re-run the `verification` block from `ws._meta/binding-setup.md`. Do not silently substitute another runner.
 - **accessor unrunnable** (no exit code at all — it could not be invoked) → do not stop. Read the binding out of `WHITTLESPEC.md` directly per `ws._meta/binding-setup.md` § The accessor, and say that you did.
@@ -49,12 +49,12 @@ What a task must *show* lives on its acceptance criteria — each carries its ow
 
 ### 1c. Resolve the durability binding (how "done" is persisted)
 
-Completed work must be persisted (see `ws._meta` § Durability). **Git-per-task is the default — assume it unless `ws-binding get durability` returns a non-git binding.**
+Completed work must be persisted (see `ws._meta/executing.md` § Durability). **Git-per-task is the default — assume it unless `ws-binding get durability` returns a non-git binding.**
 
 <!-- WS:IF-CONFIGURED durability -->
 - **empty / unbound** (get returns nothing — a record written by hand with no Durability section) → the git default: `git status --porcelain` is the persistence-state check, persist by committing. (No `WHITTLESPEC.md` at all is already caught at §1a.)
 - **git (explicit)** → same as the default.
-- **a non-git binding** → drive it by the persistence how-to recorded with the binding at setup (see `ws._meta` § Durability); do not substitute git for it.
+- **a non-git binding** → drive it by the persistence how-to recorded with the binding at setup (see `ws._meta/executing.md` § Durability); do not substitute git for it.
 - **timing = per-slice / boundary** → do not nag to persist each task; check persistence at the declared boundary instead.
 <!-- /WS -->
 

@@ -4,7 +4,7 @@ description: Post-completion — sync specs to reality, capture learnings, seed 
 ---
 # ws.9-retro
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/issue-tracking.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/lifecycle.md`, `ws._meta/issue-tracking.md`.
 
 ## Purpose
 
@@ -30,7 +30,7 @@ Alternates LLM analysis and user interaction. Each phase ends with question requ
 
 ### Phase 1: Gather and Present (then STOP)
 
-**Gather** (silently): `requirements.md` / `umbrella-requirements.md`, `plan.md` / `umbrella-plan.md`, task file, the durable-change history — git log by default (key commits, timeline), or the project's bound durability surface (`ws-binding get durability`; see `ws._meta` § Durability) — `/ws.refine` notes. Project retro: all `retro-<slice>.md`.
+**Gather** (silently): `requirements.md` / `umbrella-requirements.md`, `plan.md` / `umbrella-plan.md`, task file, the durable-change history — git log by default (key commits, timeline), or the project's bound durability surface (`ws-binding get durability`; see `ws._meta/executing.md` § Durability) — `/ws.refine` notes. Project retro: all `retro-<slice>.md`.
 
 **Drift analysis** -- spec vs reality:
 
@@ -68,7 +68,7 @@ Most important phase. Every open item leaves retro with concrete destination.
 
 **Step 3: Propose destination per remaining item.**
 
-Resolve `ws-binding get discovery-capture` and offer the defaults below plus whatever the project bound (see `ws._meta` § Capture Surfaces → Discovery-capture binding). Unbound → the defaults alone. Never offer a destination the project has not declared, and never leave a retained item without one; do not turn retro into project setup.
+Resolve `ws-binding get discovery-capture` and offer the defaults below plus whatever the project bound (see `ws._meta/lifecycle.md` § Capture Surfaces → Discovery-capture binding). Unbound → the defaults alone. Never offer a destination the project has not declared, and never leave a retained item without one; do not turn retro into project setup.
 
 **Defaults (always available):**
 
@@ -82,7 +82,7 @@ Resolve `ws-binding get discovery-capture` and offer the defaults below plus wha
 
 **Bound destinations** (from `ws-binding get discovery-capture`, if any): offer each by the name and routing rule the project recorded — e.g. a process backlog for workflow/framework observations, a knowledge base for research notes. Unbound means these do not exist here; do not invent them.
 
-**See `ws._meta` § Capture Surfaces** for the commitment-gradient framing that determines which destination fits.
+**See `ws._meta/lifecycle.md` § Capture Surfaces** for the commitment-gradient framing that determines which destination fits.
 
 **Present full list with destinations:**
 
@@ -101,7 +101,7 @@ Also ask: "Specs -- update to reflect what was built (default for slice retro / 
 
 ### Phase 4: Execute, Write, Verify (STOP if impact found)
 
-**Execute agreed destinations:** Open issues in the tracker (linked to the parent epic) / write spec seeds / append idea entries / append entries to the project's bound destinations / fix trivial debt / update/close the tracked issue *if a tracker is bound* (`local` → the task/spec files are the record, nothing external to close; see work-ledger binding) / sync artifacts per user's choice (see closure ceremony below for final-retro defaults). **Exclusive ownership**: if an item being routed to the tracker / seed / a bound destination originated in `specs/_ideas.md`, remove the source line as part of the same edit — items live in one capture surface at a time. See `ws._meta` § Capture Surfaces and Commitment Gradient.
+**Execute agreed destinations:** Open issues in the tracker (linked to the parent epic) / write spec seeds / append idea entries / append entries to the project's bound destinations / fix trivial debt / update/close the tracked issue *if a tracker is bound* (`local` → the task/spec files are the record, nothing external to close; see work-ledger binding) / sync artifacts per user's choice (see closure ceremony below for final-retro defaults). **Exclusive ownership**: if an item being routed to the tracker / seed / a bound destination originated in `specs/_ideas.md`, remove the source line as part of the same edit — items live in one capture surface at a time. See `ws._meta/lifecycle.md` § Capture Surfaces and Commitment Gradient.
 
 **Write `retro.md` / `umbrella-retro.md` / `retro-<slice>.md`** (whichever applies for the mode): what shipped / drift analysis (refined by user) / process learnings (with user additions) / open items with resolved destinations (ticket numbers / paths / "dropped") / user's observations (attributed, not paraphrased).
 
@@ -118,7 +118,7 @@ Significant project impact (tier change, pivot): **STOP, discuss with user.** Mi
 When this retro covers the whole feature (single-cycle final retro, or umbrella project retro after all slices), execute closure after confirmation:
 
 <!-- WS:DEFAULT closure-mechanism -->
-1. **Propose move to `_completed/`:** Run the persistence-state check this project's durability binding declares — `git status --short` on the spec directory under the git default, or the check recorded with a non-git binding (`ws-binding get durability`; see `ws._meta` § Durability) — and **classify** what it shows. Files this retro just produced — `retro.md`, any seeds, the INDEX entry — are expected and belong *inside* the closure unit; do not stop on them. Anything else — foreign WIP, an unrelated untracked file, or a target that already exists — STOP and discuss. Gating on the retro's own output makes the gate trip every time, which is what it did before this was fixed.
+1. **Propose move to `_completed/`:** Run the persistence-state check this project's durability binding declares — `git status --short` on the spec directory under the git default, or the check recorded with a non-git binding (`ws-binding get durability`; see `ws._meta/executing.md` § Durability) — and **classify** what it shows. Files this retro just produced — `retro.md`, any seeds, the INDEX entry — are expected and belong *inside* the closure unit; do not stop on them. Anything else — foreign WIP, an unrelated untracked file, or a target that already exists — STOP and discuss. Gating on the retro's own output makes the gate trip every time, which is what it did before this was fixed.
 
    Then execute closure as **one durable unit**, showing the operator the commands and confirming before executing:
 
