@@ -136,7 +136,7 @@ Cross-check `plan.md` / `umbrella-plan.md` / `decisions.md` too: any prescriptiv
 
 **Underwhelm test (mandatory, ALL tasks)**: Imagine showing demo to senior stakeholder. "You called me in for *this*?" -> too thin or demo hides payoff. Merge thin tasks or rewrite demo.
 
-**Severed-capability / exposure test (mandatory, ALL tasks)**: Name the capability each task serves in one user-job phrase — a thing the user *does*. Then ask: *is this task's entire payload making a capability visible — advertising, cataloguing, documenting, adding to an index / menu / usage-hint — where the capability functions, or will function, without it?* If yes, it is not a slice; it is the exposure-half of another task's behaviour — merge it into the task delivering that behaviour. Discoverability ships WITH its capability, never as its own task. Equally reject **per-surface slicing** (one task per tool / function / endpoint) when those surfaces compose one capability. See `ws._meta/shaping.md` § Slicing > Per-surface slicing + Exposure is not a slice. This test fires where the per-task Reachability pass cannot: an exposure-only task is independently demoable and "wires into prod," so it passes Reachability while still being horizontal.
+**Severed-capability / exposure test (mandatory, ALL tasks)**: Name the capability each task serves in one user-job phrase — a thing the user *does*. Then ask: *is this task's entire payload making a capability visible — advertising, cataloguing, documenting, adding to an index / menu / usage-hint — where the capability functions, or will function, without it?* If yes, merge it into the task delivering that behaviour. Equally reject per-surface slicing when those surfaces compose one capability. Both rules: `ws._meta/shaping.md` § Slicing > Per-surface slicing + Exposure is not a slice. This test fires where the per-task Reachability pass cannot: an exposure-only task is independently demoable and "wires into prod," so it passes Reachability while still being horizontal.
 
 **Reachability pass (mandatory, every task that produces user-facing output)**: User-facing = page, screen, URL, command, generated artefact a person consumes — not internal modules, refactors, or schema migrations. For each such task, produce TWO outputs *before* the compliance gate. They are complementary: the boss demo forces narrative concreteness; the regret scenarios force adversarial generation. A leaf-only slice that survives one tends to die in the other.
 
@@ -345,7 +345,7 @@ BDD `@docs` scenario verifies doc exists. Written incrementally during `ws.tdd.g
 
 ### What NOT to Do
 
-- Tasks for "might need" features / sequence for "easy" not feedback / batch verifiable-independently tasks / split feature from operational surface / defer docs to "write docs" task / **ship a user-facing artefact with discoverability (menu, index, link) deferred to a later task — leaf-only slicing, see § Validate Sequencing → Reachability pass** / **make exposure its own task (advertise/catalog/document an ability another task delivers) or slice one capability per surface (tool/endpoint/file) — see § Validate Sequencing → Severed-capability test**
+- Tasks for "might need" features / sequence for "easy" not feedback / batch verifiable-independently tasks / split feature from operational surface / defer docs to "write docs" task / **defer a user-facing artefact's discoverability to a later task — see § Validate Sequencing → Reachability pass** / **make exposure its own task, or slice one capability per surface — see § Validate Sequencing → Severed-capability test**
 
 ## Tracker Sync
 
@@ -388,8 +388,7 @@ From `ws._meta`, not optional:
 - [ ] Involvement summary approved
 - [ ] Doc paths named (BDD)
 - [ ] Tracker reflects work
-- [ ] Compaction pass run
-- [ ] Attention-budget check passed
+- [ ] Before-the-STOP-gate steps done (compaction, attention budget, size ceiling)
 
 Ask: "Ready to start? Run `/ws.4-run 1` for first task." Multi-slice: `/ws.4-run` discovers task file if only one `tasks*.md`.
 

@@ -138,7 +138,7 @@ Before marking done:
 8. **Debt spot check**: Dead imports / stale config / orphaned files? Trivial (< 5 min, no risk): fix now.
 9. **BDD outer loop**: Task's "BDD green" scenarios actually passed? Run BDD suite with relevant tags. Zero `@todo` must remain for this task's scope. **`@todo` staleness sweep**: Grep for `@todo` scenarios *outside* scope whose blocker was this task. Activate them or convert to `@debt` with paired markers.
 10. **Workaround check**: Temporary workaround introduced? Same commit must contain: `FIXME: [DEBT]` comment (with `Debt scenario:` link + `Re-enable when:` condition) / paired `@debt` test with structured comment / debt-clearing task if fix non-trivial. See `ws.tdd._meta` > Technical Debt Protocol.
-11. **AC sub-bullet coverage**: For each enumerated sub-bullet in the task's Acceptance section, identify the test that asserts it. Enumerated contracts ("for each of N sites: (a) X, (b) Y") are N*K assertions. Reporting a test count ("N tests added") without mapping each sub-bullet to an asserting test is the known failure mode. Unmapped sub-bullet = missing test, task not complete.
+11. **AC sub-bullet coverage**: map every enumerated AC sub-bullet to the test asserting it. Produced in full at the STOP gate below (line 8); unmapped sub-bullet = missing test, task not complete.
 
 #### STOP Gate: Completion Evidence (mandatory before marking [x])
 
@@ -151,9 +151,7 @@ COMPLETION EVIDENCE:
    Method: <name> -> Called from: <file:line> (or DEAD CODE -- STOP)
 2. Demo: [concrete action an operator/user can take + what they observe]
    "Run tests" or "validator passes" = NOT A DEMO -- STOP.
-   Underwhelm check: would senior stakeholder say "you called me into a
-   meeting to show me this?" If yes, task delivered infrastructure, not
-   vertical slice -- revisit before marking complete.
+   Apply the underwhelm check (`ws._meta/SKILL.md` § Vertical Over Horizontal).
 3. BDD scenarios: [N active, M @todo under this task's scope, K green]
    Any @todo under completed task = STOP.
 4. Residual patterns: [grep for old/replaced patterns -- show zero matches]
@@ -167,13 +165,12 @@ COMPLETION EVIDENCE:
    / umbrella-requirements.md sections X, Y]" if none exists. Claim must be auditable.
    "NOT BUILT" = STOP -- build comparison tool before proceeding.
    "NOT UPDATED" = STOP -- update comparison to cover this increment.
-7. Issues discovered during this work: [list every bug/issue surfaced
-   while implementing, regardless of when it was originally introduced.
-   Each must have: severity assessment + tracking artifact (tracker issue
-   number or "fixed in this task"). When something was introduced is
-   context, never a reason to omit it from this line.]
-   "None discovered (touched: [files/areas examined])" if clean. State
-   what you checked -- silent omission is known failure mode.
+7. Issues discovered during this work: [every bug surfaced while
+   implementing, each with a severity assessment and a tracking artifact
+   (issue number or "fixed in this task"), per
+   `ws._meta/executing.md` § Pre-Existing Issues Are Not Excuses.
+   "None discovered (touched: [files/areas examined])" if clean -- name
+   what you checked; silent omission is the failure mode.]
 8. AC sub-bullet coverage: [for every enumerated AC sub-bullet in this
    task's Acceptance section, name the test that asserts it. Format:
    "AC 3 (a) -> test_foo ; AC 3 (b) -> test_bar". Enumerated contracts
@@ -185,13 +182,9 @@ COMPLETION EVIDENCE:
    an INTEGRATION MILESTONE for this task (typically the last task in a
    slice), show the actual command invoked + observed output. Format:
    "Ran: <command>. Got: <output-or-summary>. Matches expected
-   behaviour: yes/no."
-   "Deferred to operator", "proxied by unit test", "requires fixture
-   (assumed unavailable)" = STOP -- not evidence. Attempt the milestone
-   first; if provably blocked, show the verification command that
-   proves it ("ran `<check>`, got `<concrete-failure>`" -- not
-   "<resource> might be down"). See ws._meta > Exercise-Verified
-   Before [x] > No preemptive deferral.]
+   behaviour: yes/no." Deferring needs proof the milestone is blocked,
+   never the suspicion -- `ws._meta/executing.md` § Exercise-Verified
+   Before `[x]`.]
 10. Persistence state: [run the persistence-state check (§1c; git
     default: `git status --porcelain`) and show the output; if files
     this task produced (tests, implementation, docs) are untracked or
@@ -199,21 +192,13 @@ COMPLETION EVIDENCE:
     changes now, then re-run the check and continue only if clean for
     this task; (b) if timing is per-slice/boundary, or the change
     belongs in a later cross-task commit, state why and name the
-    boundary/task that will carry it. A task marked complete on an
-    un-persisted change is a "done-in-checkbox, pending-in-record"
-    drift the retro will otherwise have to clean up.]
+    boundary/task that will carry it.]
 11. Walking-skeleton adversarial pass (REQUIRED when this is a walking-
-    skeleton task; otherwise "N/A -- not a walking skeleton"): Name
-    THREE plausible "we'd regret shipping ONLY this" scenarios as
-    real-world headlines, not test cases. For each, state which AC or
-    test catches it. Unaddressed scenario = STOP: either ACs missing
-    (route back to /ws.refine) or tests missing (extend before [x]).
-    See ws._meta > Walking-Skeleton Adversarial Pass. Known failure
-    mode: shipping a walking skeleton whose [VERIFY] items cover
-    mechanics (does the framework express it, does the cart accept it,
-    does mobile stack?) while domain validity (are the artefacts safe
-    to deliver to a real customer?) is invisible. Caught later by
-    adversarial review; would have been caught earlier here.
+    skeleton task; otherwise "N/A -- not a walking skeleton"): the three
+    regret scenarios and, for each, the AC or test that catches it, per
+    `ws._meta/executing.md` § Walking-Skeleton Adversarial Pass.
+    Unaddressed scenario = STOP: ACs missing (back to /ws.refine) or
+    tests missing (extend before [x]).
 ```
 
 If you cannot fill in a line, say "NOT CHECKED" -- do not fabricate.

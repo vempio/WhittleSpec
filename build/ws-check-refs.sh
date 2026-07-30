@@ -1,10 +1,10 @@
 #!/bin/sh
-# ws-check-refs.sh -- flag dangling slash-command / relative-link references.
+# ws-check-refs.sh -- flag dangling command, link and section references.
 #
 # POSIX sh + awk only: no dependency the repo's Makefile does not already
 # require (matches the pure-shell idiom of `ws-verify-structure`).
 #
-# Two reference classes are checked across a configured set of markdown files:
+# Three reference classes are checked across a configured set of markdown files:
 #
 # 1. Slash-command references (e.g. `/ws.4-run`, `/ws.tdd.red`). Detected as
 #    an inline-code span (backtick-delimited) whose entire content is a
@@ -43,6 +43,8 @@
 #    reference written without the section sign is not detected; the corpus
 #    writes `§`. The loose prefix match will accept a shorter heading that
 #    happens to prefix a longer one -- deliberate, so abbreviation stays legal.
+#    Detection is line-scoped, so a qualifier that wraps to the previous line
+#    reads as unqualified: keep `file` and its `§` on one line.
 #
 # Usage: ws-check-refs.sh [ROOT ...] [--skills-dir DIR] [--ignore FILE]
 #   ROOT          files or directories to scan (default: skills examples README.md INSTALL.md)

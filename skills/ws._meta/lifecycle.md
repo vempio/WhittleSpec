@@ -130,7 +130,7 @@ Umbrella shape substitutes `umbrella-requirements.md` / `umbrella-plan.md` / any
 
 No `Status:` frontmatter field. Frontmatter status decays because nothing forces the update; location is self-enforcing.
 
-Auditor skills (`ws.review`, `ws.status`) must respect closure: a closed spec describes a past run, not a moving target. Post-completion code evolution against a closed spec is **not drift** — it is the normal state of a living system whose specs are run documents. For current-behaviour fidelity, inspect the project's authoritative surface for that area (`ws._meta/lifecycle.md` § Spec Lifecycle → current-behaviour authority).
+Auditor skills (`ws.review`, `ws.status`) must respect closure: a closed spec describes a past run, not a moving target. Why post-completion evolution is not drift is stated once, in `ws._meta/SKILL.md` § Drift Detection; read current behaviour off the authoritative surface above.
 
 ### Seed structure
 
