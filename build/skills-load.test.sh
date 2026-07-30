@@ -81,6 +81,46 @@ for chapter in shaping executing lifecycle; do
   done
 done
 
+# 5. Composed procedures: a skill running another SKILL's procedure loads its file.
+# Same bidirectional shape as the chapter check above, and for the same reason --
+# `ws.fix` claimed three procedures "at maximum depth" while loading none of them,
+# so the claim rested on an agent guessing where the logic lived. A skill's own
+# meta is the sibling rule, not composition, so it is excluded.
+composed_table="$SKILLS/ws._meta/SKILL.md"
+for d in "$SKILLS"/ws.*; do
+  name="$(basename "$d")"; f="$d/SKILL.md"
+  [ -f "$f" ] || continue
+  meta="$(meta_for "$name")"
+  loadline="$(grep -m1 '^Load shared context:' "$f" || true)"
+  # What the load line actually names, minus this skill's own meta and itself.
+  actual=''
+  # The class must carry `_`, or every `_meta` name is invisible here -- which is
+  # how the first cut of this check passed while matching nothing.
+  for tok in $(printf '%s' "$loadline" | grep -oE '`ws\.[a-z0-9._-]+/SKILL\.md`' \
+      | tr -d '`' | sed 's|/SKILL\.md$||' | sort -u); do
+    [ "$tok" = "$meta" ] && continue
+    [ "$tok" = "$name" ] && continue
+    actual="$actual $tok"
+  done
+  # What the table gives it: the row whose FIRST cell is this skill.
+  row="$(awk -F'|' -v n="\`$name\`" '
+    NF>3 && $2 ~ /^ *`ws\./ { g=$2; gsub(/^ +| +$/, "", g); if (g == n) { print $3; exit } }
+  ' "$composed_table")"
+  listed="$(printf '%s' "$row" | grep -oE '`ws\.[a-z0-9._-]+`' | tr -d '`' | sort -u | tr '\n' ' ')"
+  for want in $listed; do
+    case " $actual " in
+      *" $want "*) ok ;;
+      *) bad "composed: $name is listed as loading $want but its load line does not" ;;
+    esac
+  done
+  for got in $actual; do
+    case " $listed " in
+      *" $got "*) ;;
+      *) bad "composed: $name loads $got but the composed-procedure table omits it" ;;
+    esac
+  done
+done
+
 # 4. Every IF-CONFIGURED adapter defines its doctrine exactly once.
 # A consuming skill may carry its own region for the same adapter -- that is a
 # procedure reading the binding, not a second definition, and it shares the id

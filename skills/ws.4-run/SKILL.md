@@ -137,7 +137,7 @@ Before marking done:
 7. **Doc deliverable check**: Task names doc file? Verify exists with expected sections (per `workflow-doc.md`). No doc file named but BDD scenarios exist? Flag gap. Run `<cli> --help` and verify output.
 8. **Debt spot check**: Dead imports / stale config / orphaned files? Trivial (< 5 min, no risk): fix now.
 9. **BDD outer loop**: Task's "BDD green" scenarios actually passed? Run BDD suite with relevant tags. Zero `@todo` must remain for this task's scope. **`@todo` staleness sweep**: Grep for `@todo` scenarios *outside* scope whose blocker was this task. Activate them or convert to `@debt` with paired markers.
-10. **Workaround check**: Temporary workaround introduced? Same commit must contain: `FIXME: [DEBT]` comment (with `Debt scenario:` link + `Re-enable when:` condition) / paired `@debt` test with structured comment / debt-clearing task if fix non-trivial. See `ws.tdd._meta` > Technical Debt Protocol.
+10. **Workaround check**: Temporary workaround introduced? Same commit must contain: `FIXME: [DEBT]` comment (with `Debt scenario:` link + `Re-enable when:` condition) / paired `@debt` test with structured comment / debt-clearing task if fix non-trivial. Where one was introduced, load `ws.tdd._meta/SKILL.md` § Technical Debt Protocol for the full field set rather than working from the summary above.
 11. **AC sub-bullet coverage**: map every enumerated AC sub-bullet to the test asserting it. Produced in full at the STOP gate below (line 8); unmapped sub-bullet = missing test, task not complete.
 
 #### STOP Gate: Completion Evidence (mandatory before marking [x])

@@ -249,6 +249,30 @@ at run time -- never defer loading a chapter because the work "might not need it
 A skill loading fewer chapters than this table gives it is a defect, not a shortcut:
 `skills-load.test.sh` fails the build on the mismatch.
 
+### Composed procedures
+
+A skill whose own steps run a procedure defined in **another skill's** file loads that
+file by the same rule, and names it in the load line. The distinction that decides it is
+unconditional versus branch-scoped: a step that always runs names its file in the load
+line; a step that runs only in a branch (a doc template, a setup block reached on a
+missing binding) names the file at the branch instead, and loading it up front would
+spend budget on a path most runs never take.
+
+Naming the *skill* is not naming the file. "Run `ws.sweep` logic" left an agent to guess
+where that logic lives, which is how `ws.fix` came to claim three procedures at maximum
+depth while loading none of them.
+
+| Loader | Also loads | Because |
+|---|---|---|
+| `ws.fix` | `ws.tdd.review`, `ws.tdd._meta`, `ws.sweep`, `ws.review` | Phase 1 runs all three procedures, plus the standards the test review checks against |
+| `ws.review` | `ws.tdd._meta` | step 3.4 runs its debt audit |
+| `ws.sweep` | `ws.tdd._meta` | step 6 runs its debt audit |
+
+A skill's own meta (`ws._meta` for the spine, `ws.tdd._meta` for the inner loops) is the
+sibling rule, not a composed procedure, and does not belong in this table.
+`skills-load.test.sh` fails the build in either direction: a listed load the skill does
+not make, or a composed load the table omits.
+
 Bundles, loaded by the same rule:
 
 - [`workflow-doc.md`](workflow-doc.md) -- template for operator workflow docs.

@@ -4,7 +4,7 @@ description: Completeness sweep -- exhaustively verify nothing was missed after 
 ---
 # ws.sweep
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, and `ws.tdd._meta/SKILL.md` (step 6 runs its debt audit).
 
 ## Purpose
 
@@ -109,7 +109,7 @@ Full pipeline                         | --   | --          | yes  <-- ORPHAN
 
 ### 6. Technical Debt Spot Check
 
-After residual/structural checks: dead imports/config from removing/renaming? / orphaned files from migration? / stale comments referencing old names? / debt marker consistency (run audit from `ws.tdd._meta` > Technical Debt Protocol -- each `FIXME: [DEBT]` must have paired `@debt` test and vice versa; has any marker's re-enable condition been met?).
+After residual/structural checks: dead imports/config from removing/renaming? / orphaned files from migration? / stale comments referencing old names? / debt marker consistency (run the audit from `ws.tdd._meta/SKILL.md` § Technical Debt Protocol -- each `FIXME: [DEBT]` must have paired `@debt` test and vice versa; has any marker's re-enable condition been met?).
 
 **Threshold**: Trivial debt (< 5 min, no risk) -- report it with the one-line fix, do not
 apply it. Substantial -- flag for a dedicated task. The sweep's job is to leave nothing

@@ -4,7 +4,7 @@ description: Autonomous quality pass -- analyze, fix, and report. Usable mid-sli
 ---
 # ws.fix
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/binding-setup.md` (this skill resolves verification, evidence and durability bindings).
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/binding-setup.md` (this skill resolves verification, evidence and durability bindings), and the four files whose procedures Phase 1 runs: `ws.tdd.review/SKILL.md`, `ws.tdd._meta/SKILL.md` (the quality standards that review checks against), `ws.sweep/SKILL.md`, `ws.review/SKILL.md`.
 
 ## Purpose
 
@@ -23,9 +23,9 @@ After completing tasks / end of slice before `/ws.9-retro` / quality drift durin
 Run simultaneously (subagents where possible), pool results:
 
 1. **Verification baseline**: resolve the project's check — `ws-binding get verification`, validated before use (branches as in `ws.4-run` §1a, including the runners not to assume). Run it and record the baseline: N pass, M fail, K skip. Binding is `none` → there is no baseline to take; record that instead, and Phase 4 compares evidence rather than counts. No record at all → load `ws._meta/binding-setup.md`, run its `verification` block or name that action; do not guess a runner.
-2. **Test quality review**: ws.tdd.review logic at maximum depth via native Read. **"Maximum depth" = hard requirement.** If shallower than standalone `/ws.tdd.review`, skill failed. **Adversarial pass mandatory**: select 20% of tests (min 3), describe subtly wrong impl that would still pass. Weak assertion = finding. Highest-value part, must not skip.
-3. **Completeness sweep**: ws.sweep logic via Grep/Glob. Stale refs, broken cross-refs, orphaned content.
-4. **Spec review**: ws.review logic (composable mode). Read specs, compare against implementation.
+2. **Test quality review**: run `ws.tdd.review/SKILL.md`'s Evaluate step against the loaded `ws.tdd._meta/SKILL.md` standards, at maximum depth, via native Read. **"Maximum depth" = hard requirement.** If shallower than standalone `/ws.tdd.review`, skill failed. **Adversarial pass mandatory**: select 20% of tests (min 3), describe subtly wrong impl that would still pass. Weak assertion = finding. Highest-value part, must not skip.
+3. **Completeness sweep**: run `ws.sweep/SKILL.md`'s Process via Grep/Glob. Stale refs, broken cross-refs, orphaned content.
+4. **Spec review**: run `ws.review/SKILL.md`'s Process in composable mode. Read specs, compare against implementation.
 5. **BDD status**: Read `.feature` files. `@todo` scenarios blocked by tasks now `[x]`?
 6. **Tracker alignment** (if applicable): Issues reflect actual scope/status?
 

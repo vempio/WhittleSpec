@@ -24,9 +24,9 @@ If scope large (> 20 files), state and propose batching: "N files in scope. I'll
 
 ### 3. Evaluate
 
-Check each test against `ws.tdd._meta` quality standards:
+Check each test against `ws.tdd._meta/SKILL.md` § Quality Standards:
 
-**Technical Debt (`@debt`) Scan** -- Before evaluating individual tests, run debt audit from `ws.tdd._meta` > Technical Debt Protocol. For each marker/test: verify structured comment block complete / bidirectional link intact / re-enable condition hasn't been met. Process violations (Critical): `@debt` test missing structured comment / `@debt` test with no `Code reference` back-reference / `FIXME: [DEBT]` in code with no corresponding `@debt` test.
+**Technical Debt (`@debt`) Scan** -- Before evaluating individual tests, run the debt audit from `ws.tdd._meta/SKILL.md` § Technical Debt Protocol. For each marker/test: verify structured comment block complete / bidirectional link intact / re-enable condition hasn't been met. Process violations (Critical): `@debt` test missing structured comment / `@debt` test with no `Code reference` back-reference / `FIXME: [DEBT]` in code with no corresponding `@debt` test.
 
 **Success Theater** -- Trivial assertions (asserting a literal truth, a no-op check, anything that cannot fail whatever the code does)? / Tests that cannot possibly fail? / Skipped tests that shouldn't be? (Skip acceptable for TODO outlines and deselected categories, never for convenience.) **Fixture fail semantics**: Credential/infrastructure fixtures that *skip* when the resource is absent, where they should error? A missing API key or DB URL is a configuration error, not an optional category -- and a skipped test reports neither pass nor fail, so the run still exits successfully and the gap is invisible. Required infrastructure must fail loudly, raising rather than skipping. **Error severity audit**: For each test asserting warning/skip/default-value/silent-return on error path -- is that actually correct? Project principle: *fail fast, fail clearly, fail completely*. For each lenient assertion: "If production handles this silently, what's worst?" Data integrity loss / financial impact / security exposure / invisible compounding -> test should assert loud failure, not graceful degradation.
 

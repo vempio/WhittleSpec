@@ -4,7 +4,7 @@ description: Review specs for gaps, ambiguity, over-specification. Covers value,
 ---
 # ws.review
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/lifecycle.md`, `ws._meta/issue-tracking.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/lifecycle.md`, `ws._meta/issue-tracking.md`, and `ws.tdd._meta/SKILL.md` (step 3.4 runs its debt audit).
 
 ## Purpose
 
@@ -71,7 +71,7 @@ If test code exists, extend with `/ws.tdd.review`.
 1. **Terminology** -- consistent across artifacts
 2. **Parallelization** -- marker consistency, shared files/state
 3. **Issue tracking** -- bidirectional: specs reference issues, issues reflect scope. Flag untracked/stale work.
-4. **Tech debt** -- run debt audit (see `ws.tdd._meta`). Flag unpaired markers, orphaned `@debt` tests, met re-enable conditions.
+4. **Tech debt** -- run the debt audit from `ws.tdd._meta/SKILL.md` § Technical Debt Protocol. Flag unpaired markers, orphaned `@debt` tests, met re-enable conditions.
 
 ### 4. Adversarial Challenge (before reporting, don't show this step)
 
