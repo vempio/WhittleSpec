@@ -46,11 +46,11 @@ Reachable whenever they apply, ordered by the moment you reach for them.
 - `/ws.spike` -- Timeboxed experiment when uncertainty blocks specifying
 - `/ws.init` -- Optional pre-entry: project intent, tier, governance, first spec seeds
 
-Shared context: `ws._meta` (spine + utilities) and `ws.tdd._meta` (both loops). Neither is invocable.
+Shared context: `ws._meta` (all spine and utility skills) and `ws.tdd._meta` (both loops). Neither is invocable.
 
 ## Usage
 
-All SDD skills load shared context from `ws._meta/SKILL.md` — the sibling skill in the same skills directory the skill itself was loaded from, so it resolves under any clone name, install location, or skills-root override. Meta skills are marked `user-invocable: false` and loaded automatically when relevant.
+All SDD skills load shared context from `ws._meta/SKILL.md` — the sibling skill in the same skills directory the skill itself was loaded from, so it resolves under any clone name, install location, or skills-root override. Alongside it each skill loads the chapters its stage needs (`shaping.md`, `executing.md`, `lifecycle.md`); the mapping is recorded in `ws._meta/SKILL.md` § Chapter routing and enforced by `skills-load.test.sh`. Meta skills are marked `user-invocable: false` and loaded automatically when relevant.
 
 Typical flow:
 

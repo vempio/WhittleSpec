@@ -44,7 +44,7 @@ Known failure mode: a task ships `[x]` on a green unit test whose injected fake 
 
 ### Walking-Skeleton Adversarial Pass
 
-Before declaring a walking-skeleton task `[x]`, run a small adversarial pass against the *walking skeleton itself*, not the full feature. Question: **"What customer or operator outcome would shipping ONLY this walking skeleton produce that we'd regret?"** Force at least three concrete scenarios, written as real-world headlines, not test cases. **At least one must concern the existing installed base** — an already-configured project or user hitting the *changed* behaviour — not only a new adopter exercising the new path. A change safe for newcomers can still break those already set up (decouple-adapters Slice 3: an empty durability binding on a project configured before durability existed was a no-ship the new-adopter regrets missed).
+Before declaring a walking-skeleton task `[x]`, run a small adversarial pass against the *walking skeleton itself*, not the full feature. Question: **"What customer or operator outcome would shipping ONLY this walking skeleton produce that we'd regret?"** Force at least three concrete scenarios, written as real-world headlines, not test cases. **At least one must concern the existing installed base** — an already-configured project or user hitting the *changed* behaviour — not only a new adopter exercising the new path. A change safe for newcomers can still break those already set up: an empty durability binding on a project configured before durability existed was a no-ship that the new-adopter regrets missed entirely.
 
 Class surface example: "Buyer pays for a seat in a class that already met." / "Buyer pays for a seat in a class that's sold out and will never open." / "Buyer sees four class dates, every one already in the past."
 
@@ -64,7 +64,7 @@ Known failure mode: LLM notes "pre-existing, not our fault" and moves on, untrac
 
 ## Durability
 
-A task marked `[x]` is a claim that the work is really done — and that claim is a lie in two distinct ways. It is **un-persisted** if its changes exist only as local edits the durable record never captured (this section). It is **un-exercised** if it was never run through its real entry point — passing tests are not the same as having tried it (see `ws._meta/executing.md` § Exercise-Verified Before `[x]`). Completion requires both: durably recorded *and* observed working.
+A task marked `[x]` is a claim that the work is really done — and that claim is a lie in two distinct ways. It is **un-persisted** if its changes exist only as local edits the durable record never captured (this section). It is **un-exercised** if it was never run through its real entry point — passing tests are not the same as having tried it (see § Exercise-Verified Before `[x]` below). Completion requires both: durably recorded *and* observed working.
 
 This section owns the first. Completed work is persisted and reviewable; the checkmark and the durable record must not diverge. HOW work is persisted (a commit, or another mechanism) and WHEN (per task, per slice, or at an explicit boundary) are adapter choices; THAT it is durably recorded before it counts as done is not.
 

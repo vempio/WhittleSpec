@@ -10,6 +10,8 @@ Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skill
 
 After any non-trivial change, exhaustively verify nothing missed. Goes beyond search-and-replace: covers stale references, orphaned content, broken cross-references, inconsistent docs. Shallow verification is proven, recurring failure mode. Checking only files you touched is not verification -- value is in finding what you DIDN'T touch but should have.
 
+**This skill never mutates.** That is the promise, and it is not carved out for trivial findings: a sweep that also edits is a diff to review rather than an observation to trust. Findings go out as a report with a one-line fix each; `/ws.fix` is the skill that applies them.
+
 ## When to Use
 
 After renaming files/functions/variables/commands / after migrating patterns / after moving content between files / after changing doc structure/workflows / after any change applying consistently across multiple files / paranoia check before committing cross-cutting changes.
@@ -109,15 +111,21 @@ Full pipeline                         | --   | --          | yes  <-- ORPHAN
 
 After residual/structural checks: dead imports/config from removing/renaming? / orphaned files from migration? / stale comments referencing old names? / debt marker consistency (run audit from `ws.tdd._meta` > Technical Debt Protocol -- each `FIXME: [DEBT]` must have paired `@debt` test and vice versa; has any marker's re-enable condition been met?).
 
-**Threshold**: Trivial debt (< 5 min, no risk) -- fix as part of sweep. Substantial -- flag for dedicated task. Sweep's job: leave codebase cleaner than found.
+**Threshold**: Trivial debt (< 5 min, no risk) -- report it with the one-line fix, do not
+apply it. Substantial -- flag for a dedicated task. The sweep's job is to leave nothing
+unseen, not to leave the tree changed.
 
-### 7. Fix
+### 7. Hand Off
 
-Issues found: fix immediately, then re-run sweep to confirm zero residuals.
+Sweep does not mutate -- that is the promise, and it is what lets a finding be read as an
+observation rather than a diff to review. Give every finding a one-line proposed fix, so
+the operator can answer "fix the reported issues as proposed" in one sentence, or reach
+for `/ws.fix` next time as the no-stop shortcut. Once the fixes land, re-run the sweep:
+zero residuals is the close.
 
 ## Anti-Patterns
 
-- Declaring "done" after fixing known matches without re-sweeping
+- Declaring "done" once the reported matches are fixed, without re-running the sweep
 - Searching only files you touched
 - Searching one variant but not others (`/foo` but not `foo` in backticks)
 - Asserting "nothing references X" without grep proof

@@ -58,7 +58,8 @@ ws-test:
 	if (cd "$$WHITTLESPEC_DIR" && sh build/ws-check-examples.sh) >/dev/null 2>&1; \
 		then echo "ok"; else echo "FAIL"; fail=1; fi; \
 	out="$$(sh "$$WHITTLESPEC_DIR/build/ws-layer-check.sh" \
-		"$$WHITTLESPEC_DIR"/skills/*/*.md "$$WHITTLESPEC_DIR"/context/*.md \
+		"$$WHITTLESPEC_DIR"/skills/*/*.md "$$WHITTLESPEC_DIR/skills/README.md" \
+		"$$WHITTLESPEC_DIR"/context/*.md \
 		"$$WHITTLESPEC_DIR"/docs/*.md "$$WHITTLESPEC_DIR/README.md" \
 		"$$WHITTLESPEC_DIR/INSTALL.md" "$$WHITTLESPEC_DIR/build/Makefile.common" \
 		"$$WHITTLESPEC_DIR/CONTRIBUTING.md" "$$WHITTLESPEC_DIR/WHITTLESPEC.md" 2>&1 >/dev/null)"; \
