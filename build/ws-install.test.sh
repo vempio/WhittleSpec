@@ -35,10 +35,14 @@ test_fresh_install_links_every_skill() { _cur=$FUNCNAME
   [ "$got" = "$want" ] || { fail "linked $got, expected $want"; return; }; pass
 }
 
+# Anchored to the expected count, not just to itself. Comparing the two runs alone
+# passes on an installer that places NOTHING (0 == 0) or a consistent subset --
+# verified by mutation: inverting the SKILL.md guard kept this case green.
 test_reinstall_is_idempotent() { _cur=$FUNCNAME
   d=$(mktemp -d); mk ws-install-global WS_SKILLS_DIR="$d/skills"
   first=$(nlinks "$d/skills"); mk ws-install-global WS_SKILLS_DIR="$d/skills"
-  second=$(nlinks "$d/skills"); rm -rf "$d"
+  second=$(nlinks "$d/skills"); want=$(expected); rm -rf "$d"
+  [ "$first" = "$want" ] || { fail "first install linked $first, expected $want"; return; }
   [ "$first" = "$second" ] || { fail "$first then $second"; return; }; pass
 }
 

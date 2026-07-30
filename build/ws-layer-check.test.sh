@@ -111,6 +111,24 @@ test_rejects_bare_harness_path() { _cur=$FUNCNAME
   case "$_err" in *CORE-mechanism*) pass ;; *) fail "class not named: $_err";; esac
 }
 
+# --- 8c: a fenced code block is illustration, not doctrine --------------------
+# ws._meta § Marker syntax shows the marker form inside a fence, so the validator
+# has to skip fenced spans -- both the markers (else the illustrated id reads as a
+# real, uninventoried one) and the mechanisms (else the illustrated command reads
+# as an environment assumption).
+# Found by mutation: deleting the two fence rules from the validator left every
+# other case in this file green, while the real corpus reported `stray-closer` in
+# a doctrine file. A regression here surfaced as a confusing corpus failure with
+# no test naming the cause.
+test_skips_fenced_code_block() { _cur=$FUNCNAME
+  d=$(mktemp -d)
+  printf 'Doctrine prose.\n\n```\n<!-- WS:IF-CONFIGURED verification-binding -->\nx\n<!-- /WS -->\nThe check is `make test` here.\n```\n\nTail prose.\n' > "$d/f.md"
+  mkinv "$d/inv" ''
+  _run --inventory "$d/inv" "$d/f.md"; rm -rf "$d"
+  [ "$_rc" -eq 0 ] || { fail "a fenced block must be exempt, got $_rc: $_err"; return; }
+  pass
+}
+
 # --- 9: the real verification-binding block validates clean ------------------
 # Its home is discovered, not assumed: doctrine moves between the spine and its
 # chapters, and a hard-coded path would fail here for the wrong reason.

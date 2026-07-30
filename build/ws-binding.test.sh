@@ -2,22 +2,24 @@
 # Self-test for the Slice-1 adapter-binding boundary.
 #
 # Units under test:
-#   build/ws-binding.sh   -- read-only accessor over WHITTLESPEC.md (the binding record)
+#   skills/ws._meta/ws-binding.sh -- read-only accessor over WHITTLESPEC.md (the
+#                                    binding record). It ships inside ws._meta so
+#                                    consumers reach it by the sibling rule; see
+#                                    the note on WSB below.
 #   /ws.0-start setup      -- the anchor writer (creates+anchors WHITTLESPEC.md)
 #   ws._meta / skeleton skills -- marker scheme + clone-agnostic meta-path
 #
 # Traceability: tasks-slice1.md Task 1 ACs (AC1 setup+anchor, AC2 consume bound
-# command, AC3 validate-before-use 5 cases, AC4 marker scheme, AC5 clone-agnostic load).
+# command, AC3 validate-before-use 5 cases, AC4 marker scheme, AC5 clone-agnostic
+# load), plus per-concept header-mapping cases added by Slices 3-5. The task file
+# lives in the spec tree, which is not part of a public clone.
 #
-# Phase: IDEA. Stubs only -- each test marks todo; no fixtures, no assertions yet.
-# Runner prints TODO / PASS / FAIL per test so unimplemented intent stays visible.
+# Every case below is implemented and asserts.
 
 set -u
 
-# --- minimal harness (todo-visible) ---------------------------------------
-_ws_pass=0 _ws_fail=0 _ws_todo=0
-todo() { printf 'TODO  %-52s %s\n' "$_ws_current" "$1"; _ws_todo=$((_ws_todo + 1)); }
-# pass()/fail() arrive in the red phase; declared here so the harness is whole.
+# --- minimal harness -------------------------------------------------------
+_ws_pass=0 _ws_fail=0
 pass() { printf 'PASS  %-52s\n' "$_ws_current"; _ws_pass=$((_ws_pass + 1)); }
 fail() { printf 'FAIL  %-52s %s\n' "$_ws_current" "$1"; _ws_fail=$((_ws_fail + 1)); }
 
@@ -168,11 +170,11 @@ EOF
   pass
 }
 test_get_unknown_concept_fails_loud() {          # beyond-AC: fail fast
-  # Goal: asking for a concept outside the fixed seven-row set is an operator
-  #       error and fails loudly, rather than printing nothing and exiting 0.
+  # Goal: asking for a concept outside the recognised set is an operator error
+  #       and fails loudly, rather than printing nothing and exiting 0.
   # Boundaries: validates the concept key against the known set; does not test
-  #       every one of the seven here (one bogus key suffices).
-  # Arrange: a valid WHITTLESPEC.md; request a concept that is not one of the seven.
+  #       every recognised key here (one bogus key suffices).
+  # Arrange: a valid WHITTLESPEC.md; request a concept that is not recognised.
   # Act: ask for the bogus concept.
   # Assert: exit non-zero; stderr says the concept is unknown and (ideally) lists
   #         the recognised set; stdout empty.
@@ -191,6 +193,37 @@ EOF
     *unknown*|*Unknown*) : ;;
     *) fail "stderr should name the concept as unknown, got '$_err'"; return ;;
   esac
+  pass
+}
+test_get_section_without_binding_line_is_unbound() {  # binding-setup.md: The accessor
+  # Goal: a concept whose section EXISTS but carries no `Binding:` line is the
+  #       unbound case (binding-setup.md § The accessor states it explicitly:
+  #       "a section with no `Binding:` line, is the unbound case"), so get must
+  #       yield empty + exit 0 -- and must NOT run past the section boundary and
+  #       serve the NEXT concept's value.
+  # Boundaries: only that the value is empty and the exit is 0; what a consumer
+  #       does with "unbound" is the skill's prose (apply the documented default).
+  # Why this case: found by mutation. Removing extract_binding's section-boundary
+  #       reset left all other cases green while `get durability` returned the
+  #       Verification command -- a skill would then "persist" work by running the
+  #       test suite. No other case distinguishes the two implementations, because
+  #       every other fixture either has the Binding line or omits the section.
+  # Arrange: a record whose Durability section is present but Binding-less,
+  #          followed by a Verification section that DOES have one.
+  # Act: get durability.
+  # Assert: stdout empty, exit 0 -- specifically not "make ws-test".
+  proj="$(mktemp -d)"
+  cat > "$proj/WHITTLESPEC.md" <<'EOF'
+## Durability
+(a note the operator left; no Binding line yet)
+
+## Verification
+Binding: make ws-test
+EOF
+  _run "$proj" get durability
+  rm -rf "$proj"
+  [ "$_rc" -eq 0 ] || { fail "a Binding-less section must exit 0 (unbound), got $_rc (stderr: $_err)"; return; }
+  [ -z "$_out" ] || { fail "must not read past the section boundary; got '$_out'"; return; }
   pass
 }
 test_get_none_returns_sentinel_not_empty() {     # D3 invariant: none drops mechanism, not invariant
@@ -741,5 +774,5 @@ test_load_resolves_under_custom_config_dir() {   # AC5
 # --- run all registered tests ---------------------------------------------
 _ws_tests=$(declare -F | awk '{print $3}' | grep '^test_' | sort)
 for _ws_current in $_ws_tests; do "$_ws_current"; done
-printf -- '----\n%d pass, %d fail, %d todo\n' "$_ws_pass" "$_ws_fail" "$_ws_todo"
+printf -- '----\n%d pass, %d fail\n' "$_ws_pass" "$_ws_fail"
 [ "$_ws_fail" -eq 0 ]
