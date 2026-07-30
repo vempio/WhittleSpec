@@ -53,5 +53,33 @@ b1="$(mktemp -d)"
 cp -rP "$SKILLS" "$b1/RenamedClone_skills"
 check_tree "$b1/RenamedClone_skills" "renamed-clone"; rm -rf "$b1"
 
+# 3. Every skill loads exactly the chapters the routing table gives it.
+# The table in ws._meta is the record of the mapping; the load lines are what a
+# session acts on. If they disagree, doctrine goes missing without a symptom --
+# so the disagreement, in either direction, is the failure.
+routing="$SKILLS/ws._meta/SKILL.md"
+for chapter in shaping executing lifecycle; do
+  [ -f "$SKILLS/ws._meta/$chapter.md" ] || bad "routing: chapter $chapter.md missing"
+  row="$(grep -F "[\`$chapter.md\`]($chapter.md)" "$routing" || true)"
+  [ -n "$row" ] || { bad "routing: no row for $chapter.md"; continue; }
+  listed=" $(printf '%s' "$row" | grep -oE '`ws\.[a-z0-9.-]+`' | tr -d '`' | tr '\n' ' ')"
+  for d in "$SKILLS"/ws.*; do
+    name="$(basename "$d")"
+    case "$name" in *._meta|ws.tdd.*|ws.bdd.*) continue ;; esac
+    # Only the load line counts. A skill may POINT at a chapter it does not load
+    # -- that is what a pointer is for -- so scanning the whole file would read
+    # navigation as loading.
+    loadline="$(grep -m1 '^Load shared context:' "$d/SKILL.md" || true)"
+    loads=no
+    case "$loadline" in *"ws._meta/$chapter.md"*) loads=yes ;; esac
+    case "$listed" in
+      *" $name "*) [ "$loads" = yes ] && ok \
+          || bad "routing: $name is listed under $chapter.md but does not load it" ;;
+      *)           [ "$loads" = no ]  && ok \
+          || bad "routing: $name loads $chapter.md but the table omits it" ;;
+    esac
+  done
+done
+
 printf -- '----\n%d pass, %d fail\n' "$_pass" "$_fail"
 [ "$_fail" -eq 0 ]
