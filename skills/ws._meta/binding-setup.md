@@ -136,8 +136,8 @@ of place there stay `local`)?"
 
 Record the default/floor: `ws-binding set work-ledger "<tracker-or-local>"`. If they chose a split,
 note the routing rule in the `WHITTLESPEC.md` work-ledger section as a short prose rule. There is no
-"none": `local` is always the floor (stable numbers = identity, `[x]`/`[~]` = state; see `ws._meta`
-§ Operating Level and Scope).
+"none": `local` is always the floor (stable numbers = identity, `[x]`/`[~]` = state; see
+`ws._meta` § Operating Level and Scope).
 
 If the ledger is external, the `Binding:` line names it and the prose beneath says **how it is
 reached** -- which MCP server, CLI or credential, and what to do when it is absent. A consumer that
@@ -182,6 +182,6 @@ parking, `specs/<feature>/seed.md` for pondering, the work ledger for committed 
 whether the project keeps discoveries anywhere else -- a process/workflow observation surface, a
 team knowledge base, a domain-specific capture file. If so, record the destinations and their
 routing rule: `ws-binding set discovery-capture "<destinations>"` (e.g. `process observations ->
-docs/process-backlog.md; research notes -> team wiki`). Unbound = the defaults (see `ws._meta`
-§ Capture Surfaces -> Discovery-capture binding). `none` means no destination beyond the local
-surfaces -- never "nowhere".
+docs/process-backlog.md; research notes -> team wiki`). Unbound = the defaults (see
+`ws._meta` § Capture Surfaces -> Discovery-capture binding). `none` means no destination beyond
+the local surfaces -- never "nowhere".

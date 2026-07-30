@@ -34,7 +34,7 @@ Concretely, the assumption to avoid: `make test` or `pytest` because they are co
 Branch on the outcome:
 
 - **ok** (validate exit 0, value ≠ `none`) → run that exact command as the verification.
-- **`none`** (get returns `none`) → the project has no automated check; completion evidence is a demonstration, not a test pass (see § Exercise-Verified). Do not invent a command.
+- **`none`** (get returns `none`) → the project has no automated check; completion evidence is a demonstration, not a test pass (see `ws._meta` § Exercise-Verified). Do not invent a command.
 - **no record** (exit 3) → not configured. Load `ws._meta/binding-setup.md` and run its `verification` block inline, or name that exact action for the operator. Do not route through a full `/ws.0-start` assessment for one binding, and do not guess.
 - **command missing** (validate exit 4) → fail loudly, name the command, and offer to re-run the `verification` block from `ws._meta/binding-setup.md`. Do not silently substitute another runner.
 - **accessor unrunnable** (no exit code at all — it could not be invoked) → do not stop. Read the binding out of `WHITTLESPEC.md` directly per `ws._meta/binding-setup.md` § The accessor, and say that you did.

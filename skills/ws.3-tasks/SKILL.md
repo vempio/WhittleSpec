@@ -293,7 +293,7 @@ When feature has operator/user interface, **prefer outside-in**:
 
 ### BDD decision
 
-Every drafted task records exactly one line — `BDD decision: use | do not use — <reason>` — never silently omitted. One applicability test decides it: *does this task introduce a new user-facing behavioural contract?* Not "no observable behaviour changes" — a task with no observable result at all is a slicing smell (see § Skip test above), not an exemption.
+Every drafted task records exactly one line — `BDD decision: use | do not use — <reason>` — never silently omitted. One applicability test decides it: *does this task introduce a new user-facing behavioural contract?* Not "no observable behaviour changes" — a task with no observable result at all is a slicing smell (see § Validate Sequencing → Skip test), not an exemption.
 
 - **Introduces a new user-facing behavioural contract, with an automatable boundary** → `use` by default; it drives the outer loop unless the user explicitly overrides.
 - **Introduces no new user-facing behavioural contract** (prose, config, a doc, a design artefact, or work with no executable boundary at all) → `do not use — not applicable: <reason>`.
@@ -345,7 +345,7 @@ BDD `@docs` scenario verifies doc exists. Written incrementally during `ws.tdd.g
 
 ### What NOT to Do
 
-- Tasks for "might need" features / sequence for "easy" not feedback / batch verifiable-independently tasks / split feature from operational surface / defer docs to "write docs" task / **ship a user-facing artefact with discoverability (menu, index, link) deferred to a later task — leaf-only slicing, see §Reachability pass** / **make exposure its own task (advertise/catalog/document an ability another task delivers) or slice one capability per surface (tool/endpoint/file) — see §Severed-capability test**
+- Tasks for "might need" features / sequence for "easy" not feedback / batch verifiable-independently tasks / split feature from operational surface / defer docs to "write docs" task / **ship a user-facing artefact with discoverability (menu, index, link) deferred to a later task — leaf-only slicing, see § Validate Sequencing → Reachability pass** / **make exposure its own task (advertise/catalog/document an ability another task delivers) or slice one capability per surface (tool/endpoint/file) — see § Validate Sequencing → Severed-capability test**
 
 ## Tracker Sync
 
@@ -367,9 +367,9 @@ One issue per logical group. After confirmation, create tracked issues, update `
 
 From `ws._meta`, not optional:
 
-1. **Compaction pass** — re-read and cut. Target ≥ 20% on first pass (§Condensation is a deliverable).
-2. **Attention-budget check** — ask: *"Is this still shorter than your attention span for one sitting?"* (§Attention Budget).
-3. **Size ceiling** — check against §Artefact size ceilings for `tasks.md`. Past hard cap → *merge over-granular tasks* or *split scope*, not "umbrella by reflex".
+1. **Compaction pass** — re-read and cut. Target ≥ 20% on first pass (`ws._meta` §Condensation is a deliverable).
+2. **Attention-budget check** — ask: *"Is this still shorter than your attention span for one sitting?"* (`ws._meta` §Attention Budget).
+3. **Size ceiling** — check against `ws._meta` §Artefact size ceilings for `tasks.md`. Past hard cap → *merge over-granular tasks* or *split scope*, not "umbrella by reflex".
 
 ### Readiness checklist
 

@@ -110,10 +110,10 @@ Write to `plan.md` (single-cycle, default) or `umbrella-plan.md` (when the user 
 
 Both passes come from `ws._meta` and are not optional.
 
-1. **Compaction pass** — re-read `plan.md` / `umbrella-plan.md` and cut. Target ≥ 20% reduction on first compaction. If 20% will not come out, either the draft was already tight (rare on first pass) or compaction was not attempted. See meta §Condensation is a deliverable.
-2. **Attention-budget check** — ask explicitly: *"Is this still shorter than your attention span for one sitting?"* If no, split or cut before adding more (see meta §Attention Budget). Length is not rigor; attended length is.
+1. **Compaction pass** — re-read `plan.md` / `umbrella-plan.md` and cut. Target ≥ 20% reduction on first compaction. If 20% will not come out, either the draft was already tight (rare on first pass) or compaction was not attempted. See `ws._meta` §Condensation is a deliverable.
+2. **Attention-budget check** — ask explicitly: *"Is this still shorter than your attention span for one sitting?"* If no, split or cut before adding more (see `ws._meta` §Attention Budget). Length is not rigor; attended length is.
 
-Also check against meta §Artefact size ceilings for `plan.md` / `umbrella-plan.md`. Past the hard cap, re-run `/ws.0-start` — the level was wrong.
+Also check against `ws._meta` §Artefact size ceilings for `plan.md` / `umbrella-plan.md`. Past the hard cap, re-run `/ws.0-start` — the level was wrong.
 
 ### Readiness checklist
 
