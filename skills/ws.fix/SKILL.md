@@ -4,7 +4,7 @@ description: Autonomous quality pass -- analyze, fix, and report. Usable mid-sli
 ---
 # ws.fix
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/binding-setup.md` (this skill resolves verification, evidence and durability bindings), and the four files whose procedures Phase 1 runs: `ws.tdd.review/SKILL.md`, `ws.tdd._meta/SKILL.md` (the quality standards that review checks against), `ws.sweep/SKILL.md`, `ws.review/SKILL.md`.
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/binding-setup.md` (this skill resolves verification, evidence and durability bindings), and the four procedure references Phase 1 runs: `ws.tdd._meta/test-quality-checklist.md`, `ws.tdd._meta/debt-protocol.md`, `ws._meta/sweep-procedure.md`, `ws._meta/review-lenses.md`.
 
 ## Purpose
 

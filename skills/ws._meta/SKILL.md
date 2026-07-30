@@ -249,29 +249,33 @@ at run time -- never defer loading a chapter because the work "might not need it
 A skill loading fewer chapters than this table gives it is a defect, not a shortcut:
 `skills-load.test.sh` fails the build on the mismatch.
 
-### Composed procedures
+## Procedure routing
 
-A skill whose own steps run a procedure defined in **another skill's** file loads that
-file by the same rule, and names it in the load line. The distinction that decides it is
-unconditional versus branch-scoped: a step that always runs names its file in the load
-line; a step that runs only in a branch (a doc template, a setup block reached on a
-missing binding) names the file at the branch instead, and loading it up front would
-spend budget on a path most runs never take.
+Where two skills run the same procedure, the procedure lives in one reference and both
+load it. A paraphrase in the second skill is the failure this prevents: `ws.fix` claimed
+`ws.tdd.review`, `ws.sweep` and `ws.review` "logic at maximum depth" while loading none
+of them, so the depth claim rested on an agent guessing where that logic lived. Naming
+the *skill* is not naming the file.
 
-Naming the *skill* is not naming the file. "Run `ws.sweep` logic" left an agent to guess
-where that logic lives, which is how `ws.fix` came to claim three procedures at maximum
-depth while loading none of them.
+What decides whether a reference belongs in a load line is unconditional versus
+branch-scoped. A step that always runs names its file in the load line; a step reached
+only in a branch -- a doc template, a setup block hit on a missing binding -- names the
+file at the branch, because loading it up front spends budget on a path most runs never
+take.
 
-| Loader | Also loads | Because |
+| Procedure | Holds | Loaded by |
 |---|---|---|
-| `ws.fix` | `ws.tdd.review`, `ws.tdd._meta`, `ws.sweep`, `ws.review` | Phase 1 runs all three procedures, plus the standards the test review checks against |
-| `ws.review` | `ws.tdd._meta` | step 3.4 runs its debt audit |
-| `ws.sweep` | `ws.tdd._meta` | step 6 runs its debt audit |
+| [`review-lenses.md`](review-lenses.md) | the three spec-review perspectives, cross-cutting checks, adversarial challenge, red flags | `ws.review`, `ws.fix` |
+| [`sweep-procedure.md`](sweep-procedure.md) | what changed, ripple effects, residual search, structural/CLI/BDD checks | `ws.sweep`, `ws.fix` |
+| [`../ws.tdd._meta/test-quality-checklist.md`](../ws.tdd._meta/test-quality-checklist.md) | the test-review criteria and the adversarial pass | `ws.tdd.review`, `ws.fix` |
+| [`../ws.tdd._meta/debt-protocol.md`](../ws.tdd._meta/debt-protocol.md) | the `FIXME: [DEBT]` marker, the paired `@debt` test, framework syntax | `ws.tdd.review`, `ws.review`, `ws.sweep`, `ws.fix` |
 
-A skill's own meta (`ws._meta` for the spine, `ws.tdd._meta` for the inner loops) is the
-sibling rule, not a composed procedure, and does not belong in this table.
-`skills-load.test.sh` fails the build in either direction: a listed load the skill does
-not make, or a composed load the table omits.
+Each reference holds only what more than one skill runs. Artefact selection, report
+format and prioritisation stay with the interactive skill, which is why `ws.review` and
+`ws.sweep` keep their own reporting steps while handing the shared middle to a reference.
+
+`skills-load.test.sh` fails the build in either direction: a listed loader that does not
+load the file, or a skill that loads one of these without being listed.
 
 Bundles, loaded by the same rule:
 

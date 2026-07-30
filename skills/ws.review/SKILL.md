@@ -4,7 +4,7 @@ description: Review specs for gaps, ambiguity, over-specification. Covers value,
 ---
 # ws.review
 
-Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/lifecycle.md`, `ws._meta/issue-tracking.md`, and `ws.tdd._meta/SKILL.md` (step 3.4 runs its debt audit).
+Load shared context: `ws._meta/SKILL.md` — the sibling skill in the same skills directory this skill loaded from (resolves under any clone name, install location, or skills-root override). Also load: `ws._meta/executing.md`, `ws._meta/lifecycle.md`, `ws._meta/issue-tracking.md`, `ws._meta/review-lenses.md` (steps 2-4), and `ws.tdd._meta/debt-protocol.md` (the cross-cutting debt audit).
 
 ## Purpose
 
@@ -35,51 +35,14 @@ See `ws._meta/lifecycle.md` § Capture Surfaces and Commitment Gradient.
 
 Ask "What would you like me to review?" or infer from context. Load relevant files. If user requests specific focus, weight that perspective but still check others.
 
-### 2. Three-Perspective Scan
+### 2. Review Lenses, Cross-Cutting Checks, Adversarial Challenge
 
-#### Value (analyst) -- primary: `requirements.md` / `umbrella-requirements.md`
-
-- **User value**: JTBD articulated? Each requirement traces to observable value? Simpler solution possible?
-- **Completeness**: Error paths? Explicit out-of-scope? Implicit "obvious" behaviors?
-- **Scenarios**: Success conditions observable and verifiable? Uncovered edge cases?
-- **Clarity**: Any AC interpretable multiple ways?
-
-Challenge: "If we build only half, which half matters?" / "What existing behavior changes, who relies on it?" / "Cost of NOT building this?"
-
-#### Feasibility (architect) -- primary: `plan.md` / `umbrella-plan.md` + `requirements.md` / `umbrella-requirements.md`
-
-- **Feasibility**: Works with existing codebase? Technical risks acknowledged?
-- **Integration**: Connects where? Affects what existing behavior?
-- **Alternatives**: Meaningful alternatives considered? Over/under-engineered?
-- **Contracts**: Interfaces precise enough?
-
-Challenge: "What breaks if assumptions wrong?" / "Simplest version that works?" / "What do we lose doing the dumb simple thing?"
-
-#### Testability (QA) -- primary: all spec levels
-
-- **Testability**: Each AC becomes test case? Success conditions observable?
-- **Boundaries**: Empty, max, min, just-over?
-- **Failure modes**: Dependency failure? Load? Malformed data?
-- **Verification**: Each task testable independently? First demonstrable milestone?
-
-Challenge: "Weirdest input someone might provide?" / "Fail loudly or silently -- why?" / "Error message says what -- enough to debug?"
+Steps 2 through 4 live in `ws._meta/review-lenses.md`: the value, feasibility and
+testability perspectives with their challenges, the cross-cutting checks, the
+adversarial challenge to run before reporting, and the red flags that stop a review.
+`ws.fix` loads the same file as its spec-review stream.
 
 If test code exists, extend with `/ws.tdd.review`.
-
-### 3. Cross-Cutting Checks
-
-1. **Terminology** -- consistent across artifacts
-2. **Parallelization** -- marker consistency, shared files/state
-3. **Issue tracking** -- bidirectional: specs reference issues, issues reflect scope. Flag untracked/stale work.
-4. **Tech debt** -- run the debt audit from `ws.tdd._meta/SKILL.md` § Technical Debt Protocol. Flag unpaired markers, orphaned `@debt` tests, met re-enable conditions.
-
-### 4. Adversarial Challenge (before reporting, don't show this step)
-
-- **Inversion test**: Pick three most important assumptions. Invert each. No defense = must-fix gap.
-- **Underwhelm test**: For each task demo, imagine presenting to senior stakeholder. "You called me into a meeting for *this*?" = task too thin or demo hides real payoff. Flag it.
-- **Malicious user**: How would someone abuse/game this feature?
-- **Blind spot**: What would author not think to ask?
-- **Self-critique**: Am I over-emphasizing pet concerns?
 
 ### 5. Report
 
@@ -104,21 +67,6 @@ If test code exists, extend with `/ws.tdd.review`.
 - **Must fix**: Blocks implementation or high misinterpretation risk
 - **Should fix**: Significant clarity improvement
 - **Could fix**: Minor polish
-
-## Red Flags
-
-Stop and highlight:
-
-- Circular definitions (term defined using itself)
-- Unbounded lists ("handle all cases" -- which?)
-- Assumed knowledge ("standard approach" -- whose?)
-- Missing actors (actions without ownership)
-- Vague quantities ("large files" -- how large?)
-- Implicit sequences (assumed order without stating)
-- Parallel conflicts (tasks marked parallel, sharing files/state)
-- Debt markers without tests (`FIXME: [DEBT]` with no `@debt` scenario)
-- Orphaned debt tests (`@debt` with no code back-reference)
-- Stale debt (re-enable condition appears met)
 
 ## Output
 
