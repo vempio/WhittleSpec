@@ -1,6 +1,6 @@
 # False-positive traps
 
-None of these may be flagged as a dangling command or link.
+None of these may be flagged as a dangling command, link, or section.
 
 - A backticked file path with internal slashes and an extension:
   `state/content-impulses.md` is a path, not a command.
@@ -9,3 +9,4 @@ None of these may be flagged as a dangling command or link.
 - Prose slashes like and/or or read/write are not commands.
 - An HTML closing tag such as `</summary>` is not a command.
 - A markdown link to an external URL: [docs](https://example.com/page.md) is not a local file.
+- A bare section sign discussing typography, §, names nothing and must not flag.

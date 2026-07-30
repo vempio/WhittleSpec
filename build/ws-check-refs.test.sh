@@ -32,16 +32,30 @@ run() {
 	set -e
 }
 
-# --- test: flags exactly the two planted defects in bad.md ---
+# --- test: flags exactly the four planted defects in bad.md ---
 run "$CORPUS"
 name="flags_exactly_the_planted_defects"
 count=$(printf '%s\n' "$OUT" | grep -c ' -> ' || true)
-if [ "$RC" -eq 1 ] && [ "$count" -eq 2 ] \
+if [ "$RC" -eq 1 ] && [ "$count" -eq 4 ] \
 	&& printf '%s\n' "$OUT" | grep -q 'bad.md:5 -> command: /sdd.ghost' \
-	&& printf '%s\n' "$OUT" | grep -q 'bad.md:6 -> link: missing.md'; then
+	&& printf '%s\n' "$OUT" | grep -q 'bad.md:6 -> link: missing.md' \
+	&& printf '%s\n' "$OUT" | grep -q 'bad.md:7 -> section: Nonexistent Heading' \
+	&& printf '%s\n' "$OUT" | grep -q 'bad.md:8 -> section: Verification Binding'; then
 	ok "$name"
 else
 	bad "$name" "rc=$RC count=$count out=[$OUT]"
+fi
+
+# --- test: every section-reference form in good.md resolves ---
+# Covers the four shapes the corpus actually writes: exact, abbreviated-prefix,
+# numbered subsection, and a reference running on into prose. A regression here
+# means the compaction's pointers start failing the build for no reason.
+run "$CORPUS/good.md" "$CORPUS/sibling.md"
+name="section_reference_forms_all_resolve"
+if [ "$RC" -eq 0 ] && ! printf '%s\n' "$OUT" | grep -q 'section:'; then
+	ok "$name"
+else
+	bad "$name" "rc=$RC out=[$OUT]"
 fi
 
 # --- test: tricky.md has no false positives ---

@@ -27,6 +27,23 @@
 #    Each must resolve to an existing file relative to the linking file's dir.
 #    Absolute URLs (`http://`, `https://`, `mailto:`) are skipped.
 #
+# 3. Section references (`§ Heading`). The target file is the nearest backticked
+#    skill-or-path token to the LEFT of the sign on the same line (`ws._meta` ->
+#    that skill's SKILL.md; `ws._meta/binding-setup.md` -> that file, resolved
+#    beside the linking file and then under the skills dir); with no such token
+#    the reference points into the linking file itself. The reference text ends
+#    at the first sub-navigation arrow (`>`, `→`) or sentence punctuation, and
+#    must match a heading in the target -- heading-is-prefix-of-reference (the
+#    reference runs on into prose) or reference-is-prefix-of-heading (the corpus
+#    abbreviates long headings) -- case-insensitively, with code and emphasis
+#    marks stripped.
+#
+#    Recall bounds (stated, not silent): sub-navigation after `>` / `→` names
+#    bold prose, not headings, so only the section it hangs off is checked. A
+#    reference written without the section sign is not detected; the corpus
+#    writes `§`. The loose prefix match will accept a shorter heading that
+#    happens to prefix a longer one -- deliberate, so abbreviation stays legal.
+#
 # Usage: ws-check-refs.sh [ROOT ...] [--skills-dir DIR] [--ignore FILE]
 #   ROOT          files or directories to scan (default: skills examples README.md INSTALL.md)
 #   --skills-dir  directory whose subdirs define valid skill names (default: skills)
@@ -84,6 +101,28 @@ for root in $roots; do
 	fi
 done
 
+# section_resolves FILE REF -- exit 0 when some heading in FILE matches REF.
+section_resolves() {
+	awk -v ref="$2" '
+	function norm(s) {
+		gsub(/[`*"]/, "", s); s = tolower(s)
+		gsub(/^[ \t]+|[ \t]+$/, "", s); gsub(/[ \t]+/, " ", s)
+		return s
+	}
+	function matches(h, r) {
+		return (h != "" && (h == r || index(r, h) == 1 || index(h, r) == 1))
+	}
+	BEGIN { r = norm(ref); if (r == "") found = 1 }
+	found { exit }
+	/^#+[ \t]/ {
+		h = $0; sub(/^#+[ \t]*/, "", h); h = norm(h)
+		o = h; sub(/^[0-9]+[a-z]?\. */, "", o)   # headings carry ordinals; references drop them
+		if (matches(h, r) || matches(o, r)) { found = 1; exit }
+	}
+	END { exit(found ? 0 : 1) }
+	' "$1"
+}
+
 : "${TMPDIR:=/tmp}"
 tmp="$TMPDIR/ws-check-refs.$$"
 trap 'rm -f "$tmp"' EXIT INT TERM
@@ -122,6 +161,32 @@ for file in $files; do
 			}
 			t = substr(t, RSTART + RLENGTH)
 		}
+		# --- section references: "§ Heading", optionally file-qualified ---
+		nsec = split($0, sec, "§")
+		ctx = sec[1]
+		tgt = ""                      # inheritance is line-scoped, never across lines
+		for (i = 2; i <= nsec; i++) {
+			ref = sec[i]
+			sub(/\*\*.*$/, "", ref)       # a bold-delimited reference ends at the marks
+			sub(/>.*$/, "", ref)          # sub-navigation is prose, not a heading
+			sub(/→.*$/, "", ref)
+			sub(/[,;:()].*$/, "", ref)    # reference ends where the sentence resumes
+			gsub(/^[ \t]+|[ \t-]+$/, "", ref)
+			# A numbered subsection ("§1a") names its ordinal only; what follows is
+			# prose, and the period in such a heading defeats the prefix match.
+			if (match(ref, /^[0-9]+[a-z]?/)) ref = substr(ref, RSTART, RLENGTH)
+			# The target is named IMMEDIATELY before the sign; a skill or document
+			# mentioned earlier in the sentence is prose, not a reference target.
+			# Unnamed, it inherits the previous reference on the line ("`x` § A
+			# and § B"), and failing that points into the linking file itself.
+			if (match(ctx, /`[^`]+`[ \t]*$/)) {
+				c = substr(ctx, RSTART, RLENGTH)
+				gsub(/^`|`[ \t]*$/, "", c)
+				if (c ~ /^[a-z][a-z0-9]*(\.[a-z0-9_-]+)+$/ || c ~ /\.md$/) tgt = c
+			}
+			if (ref != "") printf "section\t%d\t%s\t%s\n", FNR, ref, tgt
+			ctx = ctx "§" sec[i]
+		}
 	}
 	' "$file" | while IFS="$TAB" read -r kind lineno ref name; do
 		case "$kind" in
@@ -137,6 +202,21 @@ for file in $files; do
 			link)
 				[ -f "$dir/$ref" ] || \
 					printf '%s:%s -> link: %s\n' "$file" "$lineno" "$ref" >> "$tmp"
+				;;
+			section)
+				case "$name" in
+					"")       target="$file" ;;
+					*/*|*.md) target="$dir/$name"
+					          [ -f "$target" ] || target="$SKILLS_DIR/$name" ;;
+					*)        target="$SKILLS_DIR/$name/SKILL.md" ;;
+				esac
+				if [ ! -f "$target" ]; then
+					printf '%s:%s -> section: %s (no such target: %s)\n' \
+						"$file" "$lineno" "$ref" "$name" >> "$tmp"
+				elif ! section_resolves "$target" "$ref"; then
+					printf '%s:%s -> section: %s (no such heading in %s)\n' \
+						"$file" "$lineno" "$ref" "${name:-this file}" >> "$tmp"
+				fi
 				;;
 		esac
 	done
