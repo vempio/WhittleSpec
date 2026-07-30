@@ -116,7 +116,9 @@ test_rejects_bare_harness_path() { _cur=$FUNCNAME
 # chapters, and a hard-coded path would fail here for the wrong reason.
 test_passes_real_marked_block() { _cur=$FUNCNAME
   d=$(mktemp -d); blk="$d/block.md"
-  home=$(grep -rl -- '<!-- WS:IF-CONFIGURED verification-binding -->' "$here/../skills/ws._meta" | head -1)
+  home=$(grep -l -- '<!-- WS:IF-CONFIGURED verification-binding -->' \
+    "$here/../skills/ws._meta/SKILL.md" "$here/../skills/ws._meta/shaping.md" \
+    "$here/../skills/ws._meta/executing.md" "$here/../skills/ws._meta/lifecycle.md" 2>/dev/null)
   [ -n "$home" ] || { fail "no ws._meta file carries the verification-binding opener"; return; }
   awk '/<!-- WS:IF-CONFIGURED verification-binding -->/{f=1} f{print} /<!-- \/WS -->/{if(f)exit}' \
     "$home" > "$blk"

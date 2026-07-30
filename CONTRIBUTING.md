@@ -32,20 +32,23 @@ The names that trip it are concrete runners and harness paths: `make test`,
 exactly that reason, which is the shortest available demonstration of the rule.
 <!-- /WS -->
 
-**Every adapter has one region.** An adapter's IF-CONFIGURED doctrine lives in one
-place, so two changes to different adapters never collide in the same prose:
+**Every adapter has one doctrine region.** An adapter's IF-CONFIGURED doctrine is
+defined once, in the spine or one of its chapters. Consuming skills may carry their own
+IF-CONFIGURED regions for the same adapter -- those are procedures that read the
+binding, not second definitions -- and they share the marker id, because an id names a
+mechanism, not a region.
 
-| marker id | doctrine lives in |
-|---|---|
-| `verification-binding` | `ws._meta/executing.md` § Verification Binding |
-| `durability` | `ws._meta/executing.md` § Durability binding |
-| `work-ledger` | `ws._meta/SKILL.md` § Work-ledger binding |
-| `discovery-capture` | `ws._meta/lifecycle.md` § Discovery-capture binding |
-| `current-behaviour-authority` | `ws._meta/lifecycle.md` § Spec Lifecycle |
-| `closure-mechanism` | `ws.9-retro/SKILL.md` |
+| marker id | doctrine defined in | procedures elsewhere |
+|---|---|---|
+| `verification-binding` | `ws._meta/executing.md` § Verification Binding | -- |
+| `durability` | `ws._meta/executing.md` § Durability binding | `ws.4-run` §1c, `ws._meta/binding-setup.md` |
+| `work-ledger` | `ws._meta/SKILL.md` § Work-ledger binding | -- |
+| `discovery-capture` | `ws._meta/lifecycle.md` § Discovery-capture binding | -- |
+| `current-behaviour-authority` | `ws._meta/lifecycle.md` § Current-behaviour authority binding | -- |
 
-`build/mechanism-inventory.md` is what the validator checks ids against; this table
-says where to go and read.
+`skills-load.test.sh` fails the build if an adapter defines doctrine in more than one of
+those files, or in none. `build/mechanism-inventory.md` is what the validator checks ids
+against; this table says where to go and read.
 
 ## The three invariants
 

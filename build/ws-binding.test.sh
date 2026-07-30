@@ -628,7 +628,11 @@ test_task1_binding_prose_wrapped_if_configured() {  # AC4
   #         the region closes with "<!-- /WS -->", every WS opener in the file
   #         has a matching closer (balanced), and the enclosed text mentions
   #         verification (the marker wraps the right passage).
-  home="$(grep -rl -- '<!-- WS:IF-CONFIGURED verification-binding -->' "$SKILLS/ws._meta" | head -1)"
+  # Scoped to the doctrine files, where exactly one region is guaranteed -- picking
+  # the first of an unscoped match would hide a second definition rather than fail.
+  home="$(grep -l -- '<!-- WS:IF-CONFIGURED verification-binding -->' \
+    "$SKILLS/ws._meta/SKILL.md" "$SKILLS/ws._meta/shaping.md" \
+    "$SKILLS/ws._meta/executing.md" "$SKILLS/ws._meta/lifecycle.md" 2>/dev/null)"
   [ -n "$home" ] \
     || { fail "no ws._meta file carries the verification-binding opener"; return; }
   opens="$(grep -c -- '<!-- WS:' "$home" 2>/dev/null)"; opens="${opens:-0}"

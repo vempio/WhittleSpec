@@ -1,8 +1,10 @@
 # Mechanism inventory
 
 Bounded list of WS marker IDs in the canonical corpus. One `id: mechanism (LAYER)`
-record per marker; the validator (`ws-layer-check.sh`) requires this to be 1:1 with
-the markers actually used. This lists only replaceable / environment-sensitive
+record per mechanism, not per marker: a mechanism may be marked in several places --
+its doctrine region plus the procedures that read it. The validator
+(`ws-layer-check.sh`) requires every marked id to be listed here and every listed id
+to be marked somewhere. This lists only replaceable / environment-sensitive
 mechanisms -- it does not restate CORE doctrine.
 
 verification-binding: project verification command, bound in WHITTLESPEC.md (IF-CONFIGURED)

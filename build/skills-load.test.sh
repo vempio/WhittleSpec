@@ -81,5 +81,25 @@ for chapter in shaping executing lifecycle; do
   done
 done
 
+# 4. Every IF-CONFIGURED adapter defines its doctrine exactly once.
+# A consuming skill may carry its own region for the same adapter -- that is a
+# procedure reading the binding, not a second definition, and it shares the id
+# because an id names a mechanism. Two definitions among the doctrine files would
+# let persistence or verification behaviour diverge with nothing to catch it.
+doctrine="$SKILLS/ws._meta/SKILL.md $SKILLS/ws._meta/shaping.md"
+doctrine="$doctrine $SKILLS/ws._meta/executing.md $SKILLS/ws._meta/lifecycle.md"
+adapter_ids="$(grep -roh -- '<!-- WS:IF-CONFIGURED [a-z0-9_-]* -->' "$SKILLS" \
+  | sed -E 's/.* ([a-z0-9_-]+) -->/\1/' | sort -u)"
+[ -n "$adapter_ids" ] || bad "adapter: no IF-CONFIGURED markers found at all"
+for id in $adapter_ids; do
+  # shellcheck disable=SC2086
+  n=$(grep -l -- "<!-- WS:IF-CONFIGURED $id -->" $doctrine 2>/dev/null | wc -l | tr -d ' ')
+  case "$n" in
+    1) ok ;;
+    0) bad "adapter: $id defines no doctrine in the spine or its chapters" ;;
+    *) bad "adapter: $id defines doctrine in $n of the doctrine files, must be exactly one" ;;
+  esac
+done
+
 printf -- '----\n%d pass, %d fail\n' "$_pass" "$_fail"
 [ "$_fail" -eq 0 ]
