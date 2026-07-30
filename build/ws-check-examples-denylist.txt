@@ -1,6 +1,6 @@
 # Retired private case-history and business specifics -- must never reappear
 # in the public corpus. One literal string per line, matched with `grep -F`
-# (no regex). See specs/_examples.md for what replaced these.
+# (no regex). See examples/_examples.md for what replaced these.
 training-booking
 linkedin-pipeline
 capstone-variants

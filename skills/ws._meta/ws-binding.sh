@@ -17,8 +17,11 @@ RECORD="WHITTLESPEC.md"
 
 die() { printf '%s\n' "$1" >&2; exit "${2:-1}"; }
 
-# The seven settled binding concepts (umbrella D3). This is the single source of
-# truth for which concept keys are valid; get rejects anything else.
+# The binding concepts this accessor recognises. This is the single source of
+# truth for which concept keys are valid; get rejects anything else. Six of the
+# umbrella's seven settled concepts appear here; `closure` has no key because its
+# adapter is unbuilt (Slice 8, post-launch) -- a project cannot bind what nothing
+# reads, and offering the key would imply otherwise.
 KNOWN_CONCEPTS='verification evidence-profile work-ledger durability current-behaviour-authority discovery-capture'
 
 # Map a concept key to its WHITTLESPEC.md section header (without the "## ").
