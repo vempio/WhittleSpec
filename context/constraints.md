@@ -65,9 +65,9 @@ dependency; a mechanism does.)
 **Applies to**: skill prose, the binding record and its accessor, the installer,
 the distribution channel, and the discoverability/invocation surface.
 
-**Known-compliant precedent**: `ws._meta` §Tool use in autonomous skills — CORE
-says "their harness's native, non-interactive file operations"; the Claude Code
-tool-name mapping sits inside `WS:EXAMPLE claude-code-tools`.
+**Known-compliant precedent**: `ws._meta/executing.md` §Tool use in autonomous
+skills — CORE says "their harness's native, non-interactive file operations"; the
+Claude Code tool-name mapping sits inside `WS:EXAMPLE claude-code-tools`.
 
 **Known open exposure**: skill *invocation* is slash-command-shaped, a Claude
 Code extension over the Agent Skills standard. See `specs/_ideas.md`; the seed
@@ -75,8 +75,10 @@ that raised it closed 2026-07-29 (`specs/_completed/whittlespec-namespace/`).
 
 <!-- WS:EXAMPLE inv1-audit-citations -->
 **Audit status**: SWEPT 2026-07-27, findings open. Prose CLEAN (only backticked
-Claude Code tool names sit at `ws._meta:547` inside `WS:EXAMPLE
-claude-code-tools`; manual grep and `ws-layer-check` agree). FIXED:
+Claude Code tool names sit in `ws._meta/executing.md` inside `WS:EXAMPLE
+claude-code-tools` — cited by marker rather than by line, since the chapter split
+already invalidated one line number here; manual grep and `ws-layer-check`
+agree). FIXED:
 `skills/README.md` documented the pre-Slice-1 `~/.claude/skills/...` resolution.
 FIXED (2026-07-27): both installer findings, in one edit.
 `WS_SKILLS_DIR` is now the global interface and `WS_PROJECT_SKILLS_DIR` the

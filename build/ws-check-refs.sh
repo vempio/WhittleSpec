@@ -52,7 +52,14 @@
 #    reads as unqualified: keep `file` and its `§` on one line.
 #
 # Usage: ws-check-refs.sh [ROOT ...] [--skills-dir DIR] [--ignore FILE]
-#   ROOT          files or directories to scan (default: skills examples README.md INSTALL.md)
+#   ROOT          files or directories to scan. The default is every shipped
+#                 markdown file, which is the same set the layer validator covers
+#                 (see build/Makefile.common) -- the two gates read the same
+#                 corpus on purpose. Scoping this to `skills` alone let a stale
+#                 section pointer sit in `context/constraints.md` through a
+#                 chapter split with the build green.
+#                 `build/` is deliberately excluded: its fixtures plant dangling
+#                 references as test data.
 #   --skills-dir  directory whose subdirs define valid skill names (default: skills)
 #   --ignore      list of command-shaped tokens that are documentation examples,
 #                 not real invocations, and must be skipped (default:
@@ -76,7 +83,7 @@ while [ $# -gt 0 ]; do
 		*) roots="$roots $1"; shift ;;
 	esac
 done
-[ -n "$roots" ] || roots="skills examples README.md INSTALL.md"
+[ -n "$roots" ] || roots="skills examples docs context README.md INSTALL.md CONTRIBUTING.md WHITTLESPEC.md"
 
 # Ignore-list = |-delimited set of documentation-example tokens to skip.
 IGNORESET="|"
