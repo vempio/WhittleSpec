@@ -1,5 +1,5 @@
 ---
-name: ws.tdd.green
+name: ws-tdd-green
 description: Phase 4 -- write minimal production code to make failing tests pass.
 ---
 # ws.tdd.green

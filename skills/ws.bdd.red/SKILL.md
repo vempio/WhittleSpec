@@ -1,5 +1,5 @@
 ---
-name: ws.bdd.red
+name: ws-bdd-red
 description: Phase 3 -- implement step definitions for BDD scenarios (undefined to pending/failing).
 ---
 # ws.bdd.red

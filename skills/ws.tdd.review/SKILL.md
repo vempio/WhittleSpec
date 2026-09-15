@@ -1,5 +1,5 @@
 ---
-name: ws.tdd.review
+name: ws-tdd-review
 description: Audit existing test code for quality, depth, and adherence to TDD principles.
 ---
 # ws.tdd.review

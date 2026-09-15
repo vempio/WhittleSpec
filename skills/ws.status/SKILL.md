@@ -1,5 +1,5 @@
 ---
-name: ws.status
+name: ws-status
 description: Where are we? Assess current state and suggest next action.
 ---
 # ws.status

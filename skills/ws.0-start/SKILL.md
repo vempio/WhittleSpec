@@ -1,5 +1,5 @@
 ---
-name: ws.0-start
+name: ws-0-start
 description: Entry point to SDD work — calibrate how much ceremony fits this task, from none through full stack.
 ---
 # ws.0-start

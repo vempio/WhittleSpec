@@ -1,5 +1,5 @@
 ---
-name: ws.4-run
+name: ws-4-run
 description: Execute a single task from the task file, enforcing constraints.
 ---
 # ws.4-run

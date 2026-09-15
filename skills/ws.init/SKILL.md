@@ -1,5 +1,5 @@
 ---
-name: ws.init
+name: ws-init
 description: Bootstrap or re-scope a project -- capture intent, seed first specs, bridge to strategy.
 ---
 # ws.init

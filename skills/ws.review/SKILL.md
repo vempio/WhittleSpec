@@ -1,5 +1,5 @@
 ---
-name: ws.review
+name: ws-review
 description: Review specs for gaps, ambiguity, over-specification. Covers value, architecture, and testability perspectives.
 ---
 # ws.review

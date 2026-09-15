@@ -1,5 +1,5 @@
 ---
-name: ws.3-tasks
+name: ws-3-tasks
 description: Level 3 — Break plan into sequenced, atomic work units.
 ---
 # ws.3-tasks

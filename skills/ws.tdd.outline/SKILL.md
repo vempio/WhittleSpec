@@ -1,5 +1,5 @@
 ---
-name: ws.tdd.outline
+name: ws-tdd-outline
 description: Phase 2 -- tree-level test design, examining intent and approach per test.
 ---
 # ws.tdd.outline

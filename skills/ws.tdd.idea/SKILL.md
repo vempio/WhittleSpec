@@ -1,5 +1,5 @@
 ---
-name: ws.tdd.idea
+name: ws-tdd-idea
 description: Phase 1 -- forest-level test case discovery, mapping the full problem space.
 ---
 # ws.tdd.idea

@@ -1,5 +1,5 @@
 ---
-name: ws.bdd.outline
+name: ws-bdd-outline
 description: Phase 2 -- design BDD scenario steps in domain language (Given/When/Then).
 ---
 # ws.bdd.outline

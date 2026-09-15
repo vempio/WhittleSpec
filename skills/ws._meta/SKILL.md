@@ -1,5 +1,5 @@
 ---
-name: ws._meta
+name: ws-meta
 description: WhittleSpec shared spine -- persona, philosophy and standing instructions every SDD skill loads, plus routing to the stage chapters.
 user-invocable: false
 ---

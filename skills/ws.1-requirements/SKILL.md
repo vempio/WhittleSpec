@@ -1,5 +1,5 @@
 ---
-name: ws.1-requirements
+name: ws-1-requirements
 description: Elicit and document WHAT and WHY from user perspective. Includes MVP prioritization.
 ---
 # ws.1-requirements

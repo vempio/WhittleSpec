@@ -1,5 +1,5 @@
 ---
-name: ws.fix
+name: ws-fix
 description: Autonomous quality pass -- analyze, fix, and report. Usable mid-slice or end-of-slice.
 ---
 # ws.fix

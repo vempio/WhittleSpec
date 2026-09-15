@@ -1,5 +1,5 @@
 ---
-name: ws.2-plan
+name: ws-2-plan
 description: Level 2 — Define HOW at structural level, including vertical slicing.
 ---
 # ws.2-plan

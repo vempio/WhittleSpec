@@ -1,5 +1,5 @@
 ---
-name: ws.tdd._meta
+name: ws-tdd-meta
 description: TDD shared context -- phased protocol, quality standards, and standing instructions for all TDD skills.
 user-invocable: false
 ---

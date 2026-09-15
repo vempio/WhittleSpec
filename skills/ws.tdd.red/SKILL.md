@@ -1,5 +1,5 @@
 ---
-name: ws.tdd.red
+name: ws-tdd-red
 description: Phase 3 -- implement failing tests, validating assertion quality and depth.
 ---
 # ws.tdd.red

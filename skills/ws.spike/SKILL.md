@@ -1,5 +1,5 @@
 ---
-name: ws.spike
+name: ws-spike
 description: Timeboxed experiment to reduce uncertainty before specifying.
 ---
 # ws.spike

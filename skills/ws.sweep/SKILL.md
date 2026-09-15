@@ -1,5 +1,5 @@
 ---
-name: ws.sweep
+name: ws-sweep
 description: Completeness sweep -- exhaustively verify nothing was missed after a change.
 ---
 # ws.sweep

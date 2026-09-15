@@ -1,5 +1,5 @@
 ---
-name: ws.refine
+name: ws-refine
 description: Mid-flight adjustment — incorporate learning, restructure tasks, or defer. Orchestrates review on affected artifacts.
 ---
 # ws.refine

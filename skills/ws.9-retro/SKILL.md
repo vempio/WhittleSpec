@@ -1,5 +1,5 @@
 ---
-name: ws.9-retro
+name: ws-9-retro
 description: Post-completion — sync specs to reality, capture learnings, seed future work. Interactive, not a document dump.
 ---
 # ws.9-retro
